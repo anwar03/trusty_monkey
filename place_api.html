@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Bar</title>
+
+    <style>
+    .pac-container:after{
+        content:none !important;
+    }
+
+    .pac-container, .pac-item {
+        width: inherit !important;
+    }
+    </style>
+    
+</head>
+<body>
+
+    <input class='.form-control-lg' id='autocomplete' placeholder='Quel restautant choisissez vous?'type="text">
+    
+</body>
+
+<script>
+    let autocomplete;
+    function initAutocomplete(){
+        autocomplete= new google.maps.places.Autocomplete(
+            document.getElementById('autocomplete'),
+            {
+                types: ['establishment'],
+                componentRestrictions: {'country': ['FR']},
+                fields: ['place_id', 'geometry', 'name', 'formatted_address']
+            });
+            autocomplete.addListener('place_changed', fillInAddress);
+    }
+    function fillInAddress() {
+  // Get the place details from the autocomplete object.
+    var place = autocomplete.getPlace();
+    var data = place.formatted_address;
+    var name = place.name;
+    var lat = place.geometry.location.lat();
+    var lng = place.geometry.location.lng();
+    var place_id = place.place_id;    
+    console.log(place_id, lat, lng, name, data)}
+    
+</script>
+<script src='https://maps.googleapis.com/maps/api/js?key=AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos&libraries=places&callback=initAutocomplete'>    
+</script>
+</html>
