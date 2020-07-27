@@ -1,13 +1,13 @@
 from rest_framework import permissions
 
 
-class IsOwnReviewOrReadOnly(permissions.BasePermission):
+# class IsOwnReviewOrReadOnly(permissions.BasePermission):
 
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
+#     def has_object_permission(self, request, view, obj):
+#         if request.method in permissions.SAFE_METHODS:
+#             return True
 
-        return obj.pics_author == request.user
+#         return obj.pics_author == request.user
 
 
 class IsAuthorOrReadOnly(permissions.BasePermission):

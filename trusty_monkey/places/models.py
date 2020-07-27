@@ -4,8 +4,8 @@ from django.conf import settings
 from datetime import datetime    
 
 
-class RestaurantId(models.Model):
-    maps_id = models.CharField(max_length=140, unique=True)
+class Restaurant(models.Model):
+    maps = models.CharField(max_length=140, unique=True)
     adress = models.CharField(max_length=240)
     lat = models.FloatField(default='0000000')
     lng = models.FloatField(default='0000000')
@@ -18,19 +18,17 @@ class RestaurantId(models.Model):
 class RestaurantReview(models.Model):    
     review_author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       on_delete=models.CASCADE)    
-    restaurant_id = models.ForeignKey(RestaurantId, on_delete=models.CASCADE)
+    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return '{} - Author: {}, Place visited: {}'.format(self.id, self.review_author, self.restaurant_id)
+    def __str__(self):        
+        return str(self.id)
 
 
-class StarterPics(models.Model):
-    restaurant_review_id = models.OneToOneField(RestaurantReview,
+class StarterPic(models.Model):
+    restaurant_review = models.OneToOneField(RestaurantReview,
                                                on_delete=models.CASCADE)
-    pics_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurant_id = models.ForeignKey(RestaurantId, on_delete=models.CASCADE)
     name_1 = models.CharField(max_length=40)    
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
@@ -47,11 +45,9 @@ class StarterPics(models.Model):
         verbose_name_plural = 'StarterPics'
 
 
-class MainPics(models.Model):
-    restaurant_review_id = models.OneToOneField(RestaurantReview,
+class MainPic(models.Model):
+    restaurant_review = models.OneToOneField(RestaurantReview,
                                                on_delete=models.CASCADE)
-    pics_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurant_id = models.ForeignKey(RestaurantId, on_delete=models.CASCADE)
     name_1 = models.CharField(max_length=40)    
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
@@ -67,11 +63,9 @@ class MainPics(models.Model):
         verbose_name = 'MainPics'
         verbose_name_plural = 'MainPics'
 
-class DessertPics(models.Model):
-    restaurant_review_id = models.OneToOneField(RestaurantReview,
+class DessertPic(models.Model):
+    restaurant_review = models.OneToOneField(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    pics_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurant_id = models.ForeignKey(RestaurantId, on_delete=models.CASCADE)
     name_1 = models.CharField(max_length=40)    
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
@@ -88,11 +82,9 @@ class DessertPics(models.Model):
         verbose_name_plural = 'DessertPics'
 
 
-class MenuPics(models.Model):
-    restaurant_review_id = models.OneToOneField(RestaurantReview,
+class MenuPic(models.Model):
+    restaurant_review = models.OneToOneField(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    pics_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurant_id = models.ForeignKey(RestaurantId, on_delete=models.CASCADE)  
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
     lng_pic_1 = models.FloatField(default='0000000')
@@ -107,11 +99,9 @@ class MenuPics(models.Model):
         verbose_name_plural = 'MenuPics'
 
 
-class OutsidePics(models.Model):
-    restaurant_review_id = models.OneToOneField(RestaurantReview,
+class OutsidePic(models.Model):
+    restaurant_review = models.OneToOneField(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    pics_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurant_id = models.ForeignKey(RestaurantId, on_delete=models.CASCADE) 
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
     lng_pic_1 = models.FloatField(default='0000000')
@@ -122,11 +112,9 @@ class OutsidePics(models.Model):
         verbose_name_plural = 'OutsidePics'
 
 
-class InsidePics(models.Model):
-    restaurant_review_id = models.OneToOneField(RestaurantReview,
+class InsidePic(models.Model):
+    restaurant_review = models.OneToOneField(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    pics_author = models.ForeignKey(User, on_delete=models.CASCADE)
-    restaurant_id = models.ForeignKey(RestaurantId, on_delete=models.CASCADE)   
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
     lng_pic_1 = models.FloatField(default='0000000')
