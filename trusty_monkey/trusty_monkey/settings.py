@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     
     'places',
+    'users',
     'rest_framework',
     'rest_framework.authtoken',
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
 
     'crispy_forms',    
     'drf_multiple_model',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'UTC'
 
@@ -153,3 +155,10 @@ SITE_ID = 1
 
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_REQUIRED = (True)
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': 'dist/',
+        'STATS_FILE': os.path.join(BASE_DIR, 'frontend', 'webpack-stats.json'),
+    }
+}
