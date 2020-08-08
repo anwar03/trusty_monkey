@@ -15,11 +15,25 @@ class RestaurantIdViewset(viewsets.ModelViewSet):
 
 class RestaurantReviewViewset(viewsets.ModelViewSet):
     queryset = models.RestaurantReview.objects.all()
-    serializer_class = serializers.RestaurantReviewSerializer
+    # serializer_class = serializers.RestaurantReviewSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return serializers.RestaurantReviewGETSerializer # your above serializer
+        else:
+            return serializers.RestaurantReviewSerializer # default serializer
+
     permission_classes = [IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(review_author=self.request.user)
+
+# class NewRestaurantReviewViewset(viewsets.ModelViewSet):
+#     queryset = models.RestaurantReview.objects.all()
+#     serializer_class = serializers.NewRestaurantReviewSerializer
+#     permission_classes = [IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+
+#     def perform_create(self, serializer):
+#         serializer.save(review_author=self.request.user)
 
 
 class StarterPicsViewset(viewsets.ModelViewSet):

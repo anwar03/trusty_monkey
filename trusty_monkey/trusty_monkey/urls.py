@@ -30,6 +30,6 @@ urlpatterns = [
     path('api/', include('users.api.urls')),
     path('api/rest-auth/', include('rest_auth.urls')),
     path('api/rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('api/v1/', include('places.api.urls')),
+    path('api/', include('places.api.urls')),
     re_path(r"^.*$", IndexTemplateView.as_view(), name="entry-point"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -1,53 +1,79 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light my-navbar">
-        <div class="container">
-        <a class="navbar-brand" href="#">TrustyMonkey</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light my-navbar">
+    <div class="container ">
+      <router-link :to="{ name: 'home' }" class="navbar-brand">TrustyMonkey</router-link>
 
-        <div class="collapse navbar-collapse">
-            <ul class="navbar-nav ml-auto mr-2">
-            <li class="nav-item active">
-                <a class="btn btn-sm btn-primary" href="/accounts/login/">
-                Se connecter
-                </a>
-            </li>
-            <!-- <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Disabled</a>
-            </li> -->
-            </ul>
-            <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-        </div>
-        </div>
-    </nav>   
+      <div class="collapse navbar-collapse  flex-row justify-content-end ">       
+        
+          <vue-google-autocomplete
+          id="map"
+          class="form-control mr-sm-2"
+          placeholder="Rechercher un restaurant"
+          v-on:placechanged="getAddressData"
+          country="fr"
+          types="establishment"                  
+          >
+          </vue-google-autocomplete>
+      
+          <ul class="navbar-nav mr-2">         
+              <li class="nav-item active">
+                <a v-if="requestUser" class="btn btn-danger" href="/accounts/logout/">Se deconnecter</a>
+                <a v-else class="btn btn-primary" href="/accounts/login/">Se connecter</a>
+              </li>          
+          </ul>
+      </div>  
+    </div>    
+  </nav>  
 </template>
 
+
 <script>
+import VueGoogleAutocomplete from 'vue-google-autocomplete'   
 export default {
-    name: "NavbarComponent"    
+  name: "NavbarComponent",
+  components: { VueGoogleAutocomplete },
+  data() {
+    return {
+      requestUser:null,
+      addressData:'',
+       }
+      },
+  created() { 
+      this.setRequestUser()
+        
+    },
+  methods: {
+    setRequestUser() {     
+      this.requestUser = window.localStorage.getItem("username")
+      },  
+    getAddressData(addressData, placeResultData) {   
+      this.placeResultData = placeResultData
+      this.addressData = addressData      
+      console.log(this.placeResultData.name, this.placeResultData.formatted_address,
+                  this.placeResultData.place_id )
+      },   
+  }
 }
 </script>
 
 <style scoped>
- .my-navbar {
-     border-bottom: 1px solid grey;
- }
+.my-navbar {
+  border-bottom: 1px solid grey;
+}
+.navbar-brand {
+  font-weight: bold;
+  font-size: 200%;
+}
+.navbar-brand:hover {
+  color: lightblue !important;
+}
+#map {
+  width: 45%
+}
+.form-control{
+  border-left:none;
+  border-right:none;
+  border-top:none;
+  border-bottom: 1px solid lightblue;
+}
 </style>
