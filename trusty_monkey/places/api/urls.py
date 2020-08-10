@@ -5,7 +5,6 @@ from places.api import views
 router = routers.DefaultRouter()
 router.register(r'restaurant', views.RestaurantIdViewset)
 router.register(r'restaurant_review', views.RestaurantReviewViewset)
-# router.register(r'new_restaurant_review', views.NewRestaurantReviewViewset)
 router.register(r'starter_pic', views.StarterPicsViewset)
 router.register(r'main_pic', views.MainPicsViewset)
 router.register(r'dessert_pic', views.DessertPicsViewset)
@@ -18,7 +17,7 @@ urlpatterns = [
     path('user_review/<int:user>/',
                 views.UserReviewListAPIView.as_view(),
                 name='review_by_user'),
-    path('rest_review/<int:restaurant>/',
+    path('rest_review/<str:maps>/',
                 views.RestaurantReviewListAPIView.as_view(),
                 name='review_by_restaurant'),
     path('user_starter_pic/<int:user>/', 

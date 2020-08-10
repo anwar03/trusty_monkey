@@ -15,25 +15,28 @@ class RestaurantIdViewset(viewsets.ModelViewSet):
 
 class RestaurantReviewViewset(viewsets.ModelViewSet):
     queryset = models.RestaurantReview.objects.all()
-    # serializer_class = serializers.RestaurantReviewSerializer
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            return serializers.RestaurantReviewGETSerializer # your above serializer
+            return serializers.RestaurantReviewGETSerializer 
         else:
-            return serializers.RestaurantReviewSerializer # default serializer
+            return serializers.RestaurantReviewSerializer 
 
     permission_classes = [IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(review_author=self.request.user)
+        
 
-# class NewRestaurantReviewViewset(viewsets.ModelViewSet):
-#     queryset = models.RestaurantReview.objects.all()
-#     serializer_class = serializers.NewRestaurantReviewSerializer
-#     permission_classes = [IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
-
-#     def perform_create(self, serializer):
-#         serializer.save(review_author=self.request.user)
+class RestaurantReviewListAPIView(generics.ListAPIView):
+    def get_queryset(self):
+        kwarg_maps = self.kwargs.get('maps')       
+        return models.RestaurantReview.objects.filter(
+                                maps=kwarg_maps)
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return serializers.RestaurantReviewGETSerializer 
+        else:
+            return serializers.RestaurantReviewSerializer
 
 
 class StarterPicsViewset(viewsets.ModelViewSet):
@@ -79,15 +82,6 @@ class UserReviewListAPIView(generics.ListAPIView):
         kwarg_user = self.kwargs.get('user')
         return models.RestaurantReview.objects.filter(
                                 review_author=kwarg_user)
-
-
-class RestaurantReviewListAPIView(generics.ListAPIView):
-    serializer_class = serializers.RestaurantReviewSerializer
-
-    def get_queryset(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')       
-        return models.RestaurantReview.objects.filter(
-                                restaurant=kwarg_restaurant)
 
 
 class UserSarterPicsListAPIView(generics.ListAPIView):

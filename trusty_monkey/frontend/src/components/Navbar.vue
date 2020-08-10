@@ -45,13 +45,17 @@ export default {
     },
     getAddressData(addressData, placeResultData) {
       this.placeResultData = placeResultData;
-      this.addressData = addressData;
-      console.log(
-        this.placeResultData.name,
-        this.placeResultData.formatted_address,
-        this.placeResultData.place_id
-      );
-      this.$router.push({ name: "about", params: { id : this.placeResultData.place_id }})
+      this.addressData = addressData;         
+      this.$router.push({ name: "rest_reviews", 
+                          params: { maps: this.placeResultData.place_id,
+                                    name: this.placeResultData.name,
+                                    adress: this.placeResultData.formatted_address,
+                                    lat: this.placeResultData.geometry.location.lat(),
+                                    lng: this.placeResultData.geometry.location.lng(),
+                                    opening_hours: this.placeResultData.opening_hours.weekday_text,
+                                    phone: this.placeResultData.formatted_phone_number,
+                                    website: this.placeResultData.website,
+                                    type: this.placeResultData.types, }})
     }
   }
 };

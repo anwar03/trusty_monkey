@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import About from "../views/About.vue"
+import Rest_Reviews from "../views/Rest_Reviews.vue"
 
 Vue.use(VueRouter);
 
@@ -12,9 +12,10 @@ const routes = [
     component: Home
   },
   {
-    path: "/about/",
-    name: "about",
-    component: About
+    path: "/rest_reviews/:maps",
+    name: "rest_reviews",
+    component: Rest_Reviews,
+    props: true
   },
   
 ];

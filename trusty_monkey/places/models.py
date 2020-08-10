@@ -5,7 +5,7 @@ from datetime import datetime
 
 
 class Restaurant(models.Model):
-    maps = models.CharField(max_length=140, unique=True)
+    maps = models.CharField(primary_key=True, max_length=140, unique=True)
     adress = models.CharField(max_length=240)
     lat = models.FloatField(default='0000000')
     lng = models.FloatField(default='0000000')
@@ -18,7 +18,7 @@ class Restaurant(models.Model):
 class RestaurantReview(models.Model):    
     review_author = models.ForeignKey(settings.AUTH_USER_MODEL,
                                       on_delete=models.CASCADE)    
-    restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+    maps = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
