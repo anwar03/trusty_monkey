@@ -8,7 +8,7 @@
           <p class="mb-0">Visité par:
             <span><b>{{ review.review_author }}</b>, le  <i>{{ review.created_at }}</i></span>
           </p>
-          <h2><b>{{ review.restaurant_name }}</b></h2>
+          <h2><b>{{ review.restaurant_name }}</b></h2>          
           <p>{{ review.restaurant_adress }}</p> 
           <hr class="mb-0">    
         </div>
