@@ -70,7 +70,7 @@ export default {
   font-size: 200%;
 }
 .navbar-brand:hover {
-  color: red !important;
+  color: grey !important;
 }
 #map {
   width: 45%;
