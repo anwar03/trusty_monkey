@@ -3,11 +3,11 @@
     <div class="card bg-info text-white mb-3 w-75 mt-3 mx-auto">
 
       <div class="card-header row ml-0 mr-0 justify-content-between">
-        <div><h2>{{ this.$route.params.name }}</h2></div>
+        <div><h2>{{ this.$route.params.name }}</h2></div>      
         <div><button @click= "isHidden= !isHidden" class="btn btn-sm btn-success mt-2">Horaires et Accés</button></div>      
       </div>
 
-      <div v-if="isHidden">
+      <div v-show="isHidden">
         <div class="card-body row justify-content-around">
           <div class="mt-auto">
           <ul style="list-style-type:none">
@@ -18,10 +18,7 @@
           </ul>
           </div>
           <div>
-          <img :src="mapUrl">
-          <!-- <iframe width="600" height="450" frameborder="0" style="border:0"
-          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos&q=ChIJf9gUSrhZqxIROfbSqVH44Bg" allowfullscreen>
-          </iframe> -->
+            <img :src="mapUrl">          
           </div>    
         </div>
       </div>
@@ -34,7 +31,7 @@
     <div class="container mt-3">
       <hr>      
       <div class="row mt-3"
-            v-for="review in reviews"
+            v-for="(review, index) in reviews"
             :key="review.pk">
         <div class="col-8">
           <h3 class="mb-0">Visité par:
@@ -43,31 +40,41 @@
           <hr class="mb-0">    
         </div>
         <div class="col-4 text-center my-auto">
-          <button type="button" class="btn btn -sm btn-outline-info">Consulter</button> 
+          <button v-show="reviewToShow !== index" type="button" class="btn btn -sm btn-outline-info" @click="reviewToShow= index">Consulter</button>
+          <button v-show="reviewToShow == index" type="button" class="btn btn -sm btn-outline-danger" @click="reviewToShow= null">Refermer</button> 
         </div>   
         <hr>
+        
+        <div v-show="reviewToShow == index">                  
+          <ReviewDetail
+          :id="review.id"/>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
-import { apiService } from "@/common/api.service.js"
+import { apiService } from "@/common/api.service.js";
+import ReviewDetail from "@/components/ReviewDetail.vue";
 export default {
   name: "rest_reviews",
   props: {
     maps: { type: String,
             required: true
-          }
+          },   
   },  
   data () {
     return {
       isHidden: false,
-      reviews: [],
+      reviewToShow: null,
+      reviews: [],      
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
     }
+  },
+  components: {
+    ReviewDetail
   },
   computed: {
   mapUrl () {
@@ -84,20 +91,18 @@ export default {
   },
   methods: {
     getReviews() {
-      let endpoint = `/api/rest_review/${this.maps}/`;
+      let endpoint = `/api/rest_review/${this.maps}/`;      
       apiService(endpoint)
         .then(data => {          
-          this.reviews.push(...data)
-          console.log(this.maps)        
+          this.reviews.push(...data)                         
       })
-    }
+    },    
   },
-  created() {      
-    this.getReviews()
-    console.log(this.reviews)
-    }  
-};
  
+  created() {      
+    this.getReviews()          
+    }  
+}; 
 </script>
 
 <style>

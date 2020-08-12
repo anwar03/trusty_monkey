@@ -2,7 +2,7 @@
   <div class="home">
     <div class="container mt-3">      
       <div class="row mt-3"
-            v-for="review in reviews"
+            v-for="(review, index) in reviews"
             :key="review.pk">
         <div class="col-8">
           <p class="mb-0">Visité par:
@@ -13,22 +13,33 @@
           <hr class="mb-0">    
         </div>
         <div class="col-4 text-center my-auto">
-          <button type="button" class="btn btn -sm btn-outline-info">Consulter</button> 
-        </div>   
+          <button v-show="reviewToShow !== index" type="button" class="btn btn -sm btn-outline-info" @click="reviewToShow= index">Consulter</button>
+          <button v-show="reviewToShow == index" type="button" class="btn btn -sm btn-outline-danger" @click="reviewToShow= null">Refermer</button>  
+          </div>       
         <hr>
-      </div>
+
+         <div v-show="reviewToShow == index">
+          <ReviewDetail
+          :id="review.id"/>
+        </div>
+      </div>  
     </div>
-  </div>
+  </div>  
 </template>
 
 <script>
-import { apiService } from "@/common/api.service.js"
+import { apiService } from "@/common/api.service.js";
+import ReviewDetail from "@/components/ReviewDetail.vue";
 export default {
   name: "home",
   data () {
     return {
-      reviews: []
+      reviews: [],
+      reviewToShow: null,
     }
+  },
+  components: {
+    ReviewDetail
   },
   methods: {
     getReviews() {
@@ -37,7 +48,7 @@ export default {
         .then(data => {          
           this.reviews.push(...data)          
       })
-    }
+    },  
   },
   created() {      
     this.getReviews()
@@ -45,3 +56,10 @@ export default {
     }  
 };
 </script>
+
+<style >
+.pac-container:after {  
+    background-image: none !important;
+    height: 0px;
+}
+</style>

@@ -6,10 +6,10 @@ function handleResponse(response) {
   } else if (response.status === 404) {
     return null;
   } else {
-    return response.json();
+    return response.json();    
   }
-  
 }
+
 
 function apiService(endpoint, method, data) {
   const config = {

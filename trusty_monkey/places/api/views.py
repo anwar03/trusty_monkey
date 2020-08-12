@@ -267,7 +267,7 @@ class AllSingleRestPicturesAPIView(FlatMultipleModelAPIView):
         return querylist
 
 
-class AllReviewPicturesAPIView(ObjectMultipleModelAPIView):
+class AllReviewPicturesAPIView(FlatMultipleModelAPIView):
 
     def get_querylist(self):
         kwarg_review = self.kwargs.get('review')
