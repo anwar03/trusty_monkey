@@ -5,12 +5,13 @@
 
       <div class="collapse navbar-collapse flex-row justify-content-end">
         <vue-google-autocomplete
+          ref="inputField"
           id="map"
           class="form-control mr-sm-2"
           placeholder="Rechercher un restaurant"
           v-on:placechanged="getAddressData"
           country="fr"
-          types="establishment"
+          types="establishment"          
         ></vue-google-autocomplete>
 
         <ul class="navbar-nav mr-2">
@@ -33,30 +34,32 @@ export default {
   data() {
     return {
       requestUser: null,
-      addressData: ""
+      addressData: "",      
     };
   },
   created() {
     this.setRequestUser();
-  },
+  },  
   methods: {
     setRequestUser() {
       this.requestUser = window.localStorage.getItem("username");
     },
     getAddressData(addressData, placeResultData) {
       this.placeResultData = placeResultData;
-      this.addressData = addressData;         
+      this.addressData = addressData;
+      console.log(this.placeResultData.place_id)       
       this.$router.push({ name: "rest_reviews", 
-                          params: { maps: this.placeResultData.place_id,
-                                    name: this.placeResultData.name,
-                                    adress: this.placeResultData.formatted_address,
-                                    lat: this.placeResultData.geometry.location.lat(),
-                                    lng: this.placeResultData.geometry.location.lng(),
-                                    opening_hours: this.placeResultData.opening_hours.weekday_text,
-                                    phone: this.placeResultData.formatted_phone_number,
-                                    website: this.placeResultData.website,
-                                    type: this.placeResultData.types, }})
-    }
+                params: { maps: this.placeResultData.place_id,
+                          name: this.placeResultData.name,
+                          adress: this.placeResultData.formatted_address,
+                          lat: this.placeResultData.geometry.location.lat(),
+                          lng: this.placeResultData.geometry.location.lng(),
+                          opening_hours: this.placeResultData.opening_hours.weekday_text,
+                          phone: this.placeResultData.formatted_phone_number,
+                          website: this.placeResultData.website,
+                          type: this.placeResultData.types,}})      
+      this.$refs.inputField.$refs.autocomplete.value='';      
+    },      
   }
 };
 </script>

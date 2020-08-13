@@ -1,9 +1,26 @@
 <template>
   <div>
-    <div v-for="picture in pictures"
-         :key="picture.pk">
-         <h3>{{ picture.name_1 }}</h3>
-         <h4>{{ picture.picture_1 }}</h4>
+    <div class="row flex mt-4">
+
+      <div class="col-md-6">
+        <div class="row" id="grid">
+          <div v-for="(picture, index) in pictures"
+          :key="picture.pk"
+          class="col-md-4 my-auto"
+          >   
+          <div @click="picToShow= index">                 
+            <img class="img-thumbnail img-responsive" :src="picture.picture_1">
+          </div>
+          </div>  
+        </div>
+      </div>
+
+      <div class="col-6 text-center my-auto">        
+          <div v-if="picToShow!==null"  class="my-auto">                    
+             <img :src="pictures[picToShow].picture_1" class="img-responsive big_img" />     
+          </div>    
+      </div>
+      
     </div>
   </div>
 </template>
@@ -14,7 +31,8 @@ export default {
   name: "ReviewDetail",
   data () {
     return {      
-      pictures: [],           
+      pictures: [],
+      picToShow: null,               
     }
   },
   props: {
@@ -30,15 +48,19 @@ export default {
         .then(data => {          
           this.pictures.push(...data)                   
       })      
-     },
+     },    
   },
   
   created() {      
     this.getPictures()
-    // console.log(this.pictures)   
+    console.log(this.picToShow)   
   } 
 };
 </script>
 
 <style>
+.big_img {
+  max-width:100%;
+  max-height:100%;
+}
 </style>

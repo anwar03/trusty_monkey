@@ -90,18 +90,27 @@ export default {
    }
   },
   methods: {
-    getReviews() {
-      let endpoint = `/api/rest_review/${this.maps}/`;      
-      apiService(endpoint)
-        .then(data => {          
-          this.reviews.push(...data)                         
+  getReviews() {
+    let endpoint = `/api/rest_review/${this.maps}/`;      
+    apiService(endpoint)
+      .then(data => {          
+        this.reviews.push(...data)                         
       })
     },    
-  },
- 
+  }, 
   created() {      
-    this.getReviews()          
-    }  
+    this.getReviews()
+    console.log(this.maps)     
+  },
+  watch: {
+    maps: function() {
+      if (this.maps) {
+        this.reviews = [];
+        console.log(this.reviews)
+        this.getReviews()
+      }
+    }
+  }
 }; 
 </script>
 
