@@ -3,8 +3,17 @@
     <div class="card bg-info text-white mb-3 w-75 mt-3 mx-auto">
 
       <div class="card-header row ml-0 mr-0 justify-content-between">
-        <div><h2>{{ this.$route.params.name }}</h2></div>      
-        <div><button @click= "isHidden= !isHidden" class="btn btn-sm btn-success mt-2">Horaires et Accés</button></div>      
+        <div><h2>{{ this.$route.params.name }}</h2></div>
+        <div class="row">   
+        <div><button @click= "isHidden= !isHidden" class="btn btn-sm btn-success mt-2 mr-2">Horaires et Accés</button></div>
+
+        <div>
+          <button          
+          class="btn btn-sm btn-primary mt-2 mr-2"
+          @click="addReview"
+          >Ajouter une Review</button>
+        </div>
+        </div>      
       </div>
 
       <div v-show="isHidden">
@@ -96,7 +105,12 @@ export default {
       .then(data => {          
         this.reviews.push(...data)                         
       })
-    },    
+    },
+  addReview () {
+    let endpoint = `/api/restaurant_review/`;
+    let method = "POST";
+    apiService(endpoint, method, { maps: this.$route.params.maps, review_author: 1 })
+    }   
   }, 
   created() {      
     this.getReviews()

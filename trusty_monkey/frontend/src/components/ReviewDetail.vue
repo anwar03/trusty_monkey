@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="row flex mt-4">
+    <div class="row flex mt-4" style="height:450px">
 
       <div class="col-md-6">
         <div class="row" id="grid">
@@ -15,9 +15,9 @@
         </div>
       </div>
 
-      <div class="col-6 text-center my-auto">        
-          <div v-if="picToShow!==null"  class="my-auto">                    
-             <img :src="pictures[picToShow].picture_1" class="img-responsive big_img" />     
+      <div class="col-6 d-flex align-items-center justify-content-center" style="width:450px; height:450px;">        
+          <div v-if="picToShow!==null">                    
+             <img :src="pictures[picToShow].picture_1" class="img-responsive" style="width:auto; height:auto; max-width:450px; max-height:450px;"/>     
           </div>    
       </div>
       
@@ -52,15 +52,11 @@ export default {
   },
   
   created() {      
-    this.getPictures()
-    console.log(this.picToShow)   
+    this.getPictures()       
   } 
 };
 </script>
 
 <style>
-.big_img {
-  max-width:100%;
-  max-height:100%;
-}
+
 </style>

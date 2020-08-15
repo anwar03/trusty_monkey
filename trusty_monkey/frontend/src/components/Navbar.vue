@@ -39,10 +39,11 @@ export default {
   },
   created() {
     this.setRequestUser();
+    console.log(this.requestUser)
   },  
   methods: {
     setRequestUser() {
-      this.requestUser = window.localStorage.getItem("username");
+      this.requestUser = window.localStorage.getItem("username");      
     },
     getAddressData(addressData, placeResultData) {
       this.placeResultData = placeResultData;
