@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from datetime import datetime    
-
-
+        
+        
 class Restaurant(models.Model):
     maps = models.CharField(primary_key=True, max_length=140, unique=True)
     adress = models.CharField(max_length=240)
@@ -13,7 +13,7 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
-        
+
 
 class RestaurantReview(models.Model):    
     review_author = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -89,7 +89,7 @@ class MenuPic(models.Model):
     lat_pic_1 = models.FloatField(default='0000000')
     lng_pic_1 = models.FloatField(default='0000000')
     shot_time_1 = models.DateTimeField(default=datetime.now)
-    picture_2 = models.ImageField()
+    picture_2 = models.ImageField(null=True, blank=True)
     lat_pic_2 = models.FloatField(default='0000000')
     lng_pic_2 = models.FloatField(default='0000000')
     shot_time_2 = models.DateTimeField(default=datetime.now)

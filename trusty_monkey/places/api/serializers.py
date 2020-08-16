@@ -26,10 +26,12 @@ class RestaurantReviewGETSerializer(serializers.ModelSerializer):
     def get_created_at(self, instance):
         return instance.created_at.strftime("%d %B, %Y")
 
+
 class RestaurantReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = RestaurantReview
         field = fields = '__all__'
+        
 
 class StarterPicsSerializer(serializers.ModelSerializer):
     class Meta:

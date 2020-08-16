@@ -8,11 +8,12 @@
         <div><button @click= "isHidden= !isHidden" class="btn btn-sm btn-success mt-2 mr-2">Horaires et Accés</button></div>
 
         <div>
-          <button          
-          class="btn btn-sm btn-primary mt-2 mr-2"
-          @click="addReview"
+          <button      
+          class="reviewButton btn btn-sm btn-primary mt-2 mr-2"
+          @click="addRestaurant(), showTheEditor()"
           >Ajouter une Review</button>
         </div>
+
         </div>      
       </div>
 
@@ -32,11 +33,16 @@
         </div>
       </div>
 
-          <div class="card-footer">
-            {{ this.$route.params.adress }}_-|&|-_ {{ this.$route.params.website }}_-|&|-_ {{ this.$route.params.phone }}
+        <div class="card-footer">
+          {{ this.$route.params.adress }}_-|&|-_ {{ this.$route.params.website }}_-|&|-_ {{ this.$route.params.phone }}
         </div>
+
     </div>
-    
+
+    <div v-if="showEditor" class="container">
+      <ReviewEditor/>
+    </div>
+
     <div class="container mt-3">
       <hr>      
       <div class="row mt-3"
@@ -66,6 +72,7 @@
 <script>
 import { apiService } from "@/common/api.service.js";
 import ReviewDetail from "@/components/ReviewDetail.vue";
+import ReviewEditor from "@/components/ReviewEditor.vue";
 export default {
   name: "rest_reviews",
   props: {
@@ -77,13 +84,16 @@ export default {
     return {
       isHidden: false,
       reviewToShow: null,
+      showEditor: false,      
       reviews: [],      
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
+      error: null,
     }
   },
   components: {
-    ReviewDetail
+    ReviewDetail,
+    ReviewEditor
   },
   computed: {
   mapUrl () {
@@ -105,13 +115,30 @@ export default {
       .then(data => {          
         this.reviews.push(...data)                         
       })
-    },
-  addReview () {
-    let endpoint = `/api/restaurant_review/`;
+  },
+  addRestaurant () {
+    let endpoint = `/api/restaurant/`;
     let method = "POST";
-    apiService(endpoint, method, { maps: this.$route.params.maps, review_author: 1 })
-    }   
+    let config = { maps: this.$route.params.maps, adress: this.$route.params.adress, name: this.$route.params.name }
+
+    apiService(endpoint, method, config)
+    .then(data => {
+      console.log("Restaurant added!" + data);
+      this.addReview();      
+    })
+    .catch(error => console.log(error));  
+  },
+  addReview () {
+  let endpoint = `/api/restaurant_review/`;
+  let method = "POST";
+  apiService(endpoint, method, { maps: this.$route.params.maps, review_author: 1 })
+  },
+  showTheEditor() {
+    this.showEditor= true;    
   }, 
+}, 
+    
+  
   created() {      
     this.getReviews()
     console.log(this.maps)     

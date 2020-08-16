@@ -52,7 +52,8 @@ export default {
   },
   
   created() {      
-    this.getPictures()       
+    this.getPictures()
+     
   } 
 };
 </script>
