@@ -40,7 +40,8 @@
     </div>
 
     <div v-if="showEditor" class="container">
-      <ReviewEditor/>
+      <ReviewEditor
+      :id= "review_id"/>  
     </div>
 
     <div class="container mt-3">
@@ -85,7 +86,8 @@ export default {
       isHidden: false,
       reviewToShow: null,
       showEditor: false,      
-      reviews: [],      
+      reviews: [],
+      review_id: 0,           
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
       error: null,
@@ -96,17 +98,17 @@ export default {
     ReviewEditor
   },
   computed: {
-  mapUrl () {
-    const url = "https://maps.googleapis.com/maps/api/staticmap"
-    const params = new URLSearchParams({
-      center: `${this.$route.params.lat},${this.$route.params.lng}`,
-      zoom: 15,
-      size: "250x250",
-      maptype: "terrain",
-      key: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos"
-    })
-    return `${url}?${params}`
-   }
+    mapUrl () {
+      const url = "https://maps.googleapis.com/maps/api/staticmap"
+      const params = new URLSearchParams({
+        center: `${this.$route.params.lat},${this.$route.params.lng}`,
+        zoom: 15,
+        size: "250x250",
+        maptype: "terrain",
+        key: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos"
+      })
+      return `${url}?${params}`
+    }
   },
   methods: {
   getReviews() {
@@ -132,13 +134,15 @@ export default {
   let endpoint = `/api/restaurant_review/`;
   let method = "POST";
   apiService(endpoint, method, { maps: this.$route.params.maps, review_author: 1 })
+    .then(res => {          
+          this.review_id = res.id
+          console.log(this.review_id)                            
+        })
   },
   showTheEditor() {
     this.showEditor= true;    
-  }, 
-}, 
-    
-  
+    }, 
+  },   
   created() {      
     this.getReviews()
     console.log(this.maps)     
