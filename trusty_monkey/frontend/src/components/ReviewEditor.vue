@@ -13,13 +13,13 @@
 
       
         <div class="d-flex flex-row justify-content-around">
-          <div class="mt-3" v-for="(buttonPic, index) in buttonPics"
-              :key="buttonPic">
-            <button class="btn btn-sm btn-success"
-            @click="upUrl= index">
+          <div class="mt-3" v-for="(buttonPic, index) in buttonPics" :key="buttonPic">
+            <button class="btn btn-sm btn-success" @click="upUrl= index">
             {{ buttonPic }} </button>
           </div>
-        </div> 
+         {{ upUrl }}
+        </div>
+        
       
     </div>
   </div>
@@ -34,8 +34,8 @@ export default {
   data() {
     return {
       selectedFile : null,
-      buttonPics : ['Entrée', 'Plat-principal', 'Dessert', 'menu', 'Extérieur', 'Intérieur'],
-      upUrl : null,        
+      upUrl : null,
+      buttonPics : ['Entrée', 'Plat-principal', 'Dessert', 'menu', 'Extérieur', 'Intérieur'],              
     }
   },
   props: {
