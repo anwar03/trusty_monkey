@@ -29,7 +29,7 @@ class RestaurantReview(models.Model):
 class StarterPic(models.Model):
     restaurant_review = models.OneToOneField(RestaurantReview,
                                                on_delete=models.CASCADE)
-    name_1 = models.CharField(max_length=40)    
+    name_1 = models.CharField(max_length=40, null=True, blank=True)    
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
     lng_pic_1 = models.FloatField(default='0000000')
@@ -48,7 +48,7 @@ class StarterPic(models.Model):
 class MainPic(models.Model):
     restaurant_review = models.OneToOneField(RestaurantReview,
                                                on_delete=models.CASCADE)
-    name_1 = models.CharField(max_length=40)    
+    name_1 = models.CharField(max_length=40, null=True, blank=True)    
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
     lng_pic_1 = models.FloatField(default='0000000')
@@ -66,7 +66,7 @@ class MainPic(models.Model):
 class DessertPic(models.Model):
     restaurant_review = models.OneToOneField(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    name_1 = models.CharField(max_length=40)    
+    name_1 = models.CharField(max_length=40, null=True, blank=True)    
     picture_1 = models.ImageField()
     lat_pic_1 = models.FloatField(default='0000000')
     lng_pic_1 = models.FloatField(default='0000000')
