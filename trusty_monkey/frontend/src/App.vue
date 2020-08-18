@@ -31,7 +31,7 @@ export default {
       height: 100%;
       font-family: "Montserrat", serif;           
   }
-  .btn:focus {
+  /* .btn:focus {
     box-shadow: none !important;
-  }
+  } */
 </style>
