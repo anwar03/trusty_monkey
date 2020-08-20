@@ -2,10 +2,7 @@
 <div>
 
   <div>
-    <div style="height:200px">
-      <ReviewDetail
-          :id= "this.id"/>
-    </div>
+    <PictureUpload/>    
     <hr/>
   </div>
 
@@ -46,9 +43,11 @@
 </template>
 
 <script>
-import ReviewDetail from "@/components/ReviewDetail.vue";
+import { store } from "../common/store.js"
 import axios from 'axios'
 import { CSRF_TOKEN } from "../common/csrf_token.js"
+import PictureUpload from "@/components/PictureUpload.vue";
+
 export default {
   name: "ReviewEditor",
   data() {
@@ -58,8 +57,9 @@ export default {
       submit: false,
       showCatBut: true,
       endpoint: null,
-      totalPics: 6,           
-      buttonPics: ['Entrée', 'Plat-principal', 'Dessert', 'menu', 'Extérieur', 'Intérieur'],                     
+      totalPics: 6,
+      newPicture: null,    
+      buttonPics: ['Entrée', 'Plat-principal', 'Dessert', 'Menu', 'Extérieur', 'Intérieur'],                     
     }
   },
   props: {
@@ -72,6 +72,9 @@ export default {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0]
       this.submit = true                 
+    },
+    addPicture(newPicture) {
+      store.addPicture(String(newPicture))
     },
     onUpload() {      
       const fd = new FormData();
@@ -96,14 +99,15 @@ export default {
       fd.append('picture_1', this.selectedFile)
       fd.append('restaurant_review', this.id)
       axios.post(`http://127.0.0.1:8000/api/${this.endpoint}/`, fd, axiosConfig)
-        .then(res => {
-          console.log(res)
+        .then(res => {                    
           this.upUrl = null
           this.submit = false
           this.showCatBut = true
           this.totalPics -= 1
-        })
-    },   
+          let newPicture = res.data.picture_1
+          this.addPicture(newPicture) 
+    })
+    }
   },
   watch: {
     totalPics: function() {
@@ -115,9 +119,10 @@ export default {
     }
   },
   components: {
-    ReviewDetail,    
-   }, 
-}
+    PictureUpload
+    }, 
+  }
+
 </script>
 
 <style>

@@ -49,8 +49,7 @@ export default {
           this.pictures.push(...data)                   
       })      
      },    
-  },
-  
+  },  
   created() {      
     this.getPictures()     
   } 
