@@ -74,6 +74,7 @@
 import { apiService } from "@/common/api.service.js";
 import ReviewDetail from "@/components/ReviewDetail.vue";
 import ReviewEditor from "@/components/ReviewEditor.vue";
+import { store } from "../common/store.js"
 export default {
   name: "rest_reviews",
   props: {
@@ -91,6 +92,7 @@ export default {
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
       error: null,
+      storeState: store.state,
     }
   },
   components: {
@@ -136,7 +138,8 @@ export default {
   apiService(endpoint, method, { maps: this.$route.params.maps, review_author: 1 })
     .then(res => {          
           this.review_id = res.id
-          console.log(this.review_id)                            
+          console.log(this.review_id)
+          this.storeState.pictures = []
         })
   },
   showTheEditor() {

@@ -49,11 +49,9 @@ export default {
           this.pictures.push(...data)                   
       })      
      },    
-  },
-  
+  },  
   created() {      
-    this.getPictures()
-     
+    this.getPictures()     
   } 
 };
 </script>
