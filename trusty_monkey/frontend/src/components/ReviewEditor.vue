@@ -34,7 +34,7 @@
       </div>
 
       <div v-show="totalPics == 0">
-            <h1> Submit button </h1>
+            <button class="btn btn-success" @click="goHome">Soumettre</button>
       </div>  
 
     </div>
@@ -58,8 +58,9 @@ export default {
       showCatBut: true,
       endpoint: null,
       totalPics: 6,
-      newPicture: null,    
-      buttonPics: ['Entrée', 'Plat-principal', 'Dessert', 'Menu', 'Extérieur', 'Intérieur'],                     
+      newPictureUrl: null,      
+      buttonPics: ['Entrée', 'Plat-principal', 'Dessert', 'Menu', 'Extérieur', 'Intérieur'],
+      storeState: store.state                     
     }
   },
   props: {
@@ -99,14 +100,24 @@ export default {
       fd.append('picture_1', this.selectedFile)
       fd.append('restaurant_review', this.id)
       axios.post(`http://127.0.0.1:8000/api/${this.endpoint}/`, fd, axiosConfig)
-        .then(res => {                    
+        .then(res => {  
+          console.log(res)                        
           this.upUrl = null
           this.submit = false
           this.showCatBut = true
           this.totalPics -= 1
-          let newPicture = res.data.picture_1
-          this.addPicture(newPicture) 
-    })
+          let newPictureUrl = res.data.picture_1
+          let newPictureId = res.data.id
+          let apiURL = res.config.url
+          let addPicDic = {"url": newPictureUrl,
+                          "id": newPictureId,
+                          "apiUrl": apiURL  }          
+          store.addPicture(addPicDic)
+        })
+    },
+    goHome() {
+      this.$router.push({name: 'home'});
+       
     }
   },
   watch: {

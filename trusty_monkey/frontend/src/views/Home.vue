@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container mt-3">      
-      <div class="row mt-3"
+      <div class="row mt-3 singleReview"
             v-for="(review, index) in reviews"
             :key="review.pk">
         <div class="col-8">
@@ -49,17 +49,25 @@ export default {
           this.reviews.push(...data)          
       })
     },  
-  },
-  created() {      
+  }, 
+  mounted() {      
     this.getReviews()
     console.log(this.reviews) 
-    }  
+    },
 };
 </script>
 
 <style >
 .pac-container:after {  
-    background-image: none !important;
+  background-image: none !important;
     height: 0px;
+}
+body {
+  background-image:url(../assets/Optimized-banana_palms.jpg);
+}
+
+.singleReview {
+  background-color: white;
+  border: 1px solid 
 }
 </style>
