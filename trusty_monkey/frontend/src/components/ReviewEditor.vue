@@ -50,6 +50,11 @@ import PictureUpload from "@/components/PictureUpload.vue";
 
 export default {
   name: "ReviewEditor",
+  computed:{
+     storeState(){
+    return store.state;
+   }
+  },
   data() {
     return {
       selectedFile: null,
@@ -59,8 +64,7 @@ export default {
       endpoint: null,
       totalPics: 6,
       newPictureUrl: null,      
-      buttonPics: ['Entrée', 'Plat-principal', 'Dessert', 'Menu', 'Extérieur', 'Intérieur'],
-      storeState: store.state                     
+      buttonPics: ['Entrée', 'Plat-principal', 'Dessert', 'Menu', 'Extérieur', 'Intérieur'],                          
     }
   },
   props: {
@@ -73,10 +77,7 @@ export default {
     onFileSelected(event) {
       this.selectedFile = event.target.files[0]
       this.submit = true                 
-    },
-    addPicture(newPicture) {
-      store.addPicture(String(newPicture))
-    },
+    },    
     onUpload() {      
       const fd = new FormData();
       let axiosConfig = {

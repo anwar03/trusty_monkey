@@ -7,7 +7,7 @@
           <div >                 
             <img class="img-thumbnail img-responsive" 
                 :src="picture.url"
-                @click="deleteMe(picture)">            
+                @click="deleteMe(picture, picToDelete = index)">                           
           </div>          
       </div>      
     </div>    
@@ -19,10 +19,15 @@ import { store } from "../common/store.js"
 import { apiService } from "@/common/api.service.js";
 
 export default {
-	name:"PictureUpload",	
+  name:"PictureUpload",
+  data () {
+    return {
+      picToDelete: null,
+    }
+  },
   computed:{
-     storeState(){
-    return store.state;
+    storeState(){
+      return store.state;
    }
   },
   methods: {
@@ -30,10 +35,16 @@ export default {
       let endpoint = picture.apiUrl + picture.id +"/"
       let method = "DELETE";
       apiService(endpoint, method);
+      console.log(this.picToDelete)
+      store.deletePicture(this.picToDelete)
     }
   }
 }
 </script>
 
 
+<style lang="stylus" scoped>
+img: hover {
 
+}
+</style>
