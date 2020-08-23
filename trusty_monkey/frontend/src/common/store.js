@@ -2,7 +2,7 @@ export const store = {
     state: {
       pictures: []
     },
-    addPicture(newPicture) {
+    addPicture(newPicture) {      
       this.state.pictures.push(newPicture);
-    }
-  };
+    }  
+  }
