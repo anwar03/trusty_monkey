@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Rest_Reviews from "../views/Rest_Reviews.vue";
-
+import Resize from "../views/Resize.vue";
 
 Vue.use(VueRouter);
 
@@ -18,6 +18,11 @@ const routes = [
     component: Rest_Reviews,
     props: true
   },
+  {
+    path: "/resize/",
+    name: "resize",
+    component: Resize,
+  }
 
 ];
 
