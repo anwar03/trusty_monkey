@@ -41,6 +41,7 @@
           </div>
         </div>
       </div>
+
       <div
         class="card-footer"
       >{{ this.$route.params.adress }}_-|&|-_ {{ this.$route.params.website }}_-|&|-_ {{ this.$route.params.phone }}</div>
@@ -50,15 +51,17 @@
       <ReviewEditor :id="review_id" />
     </div>
 
-    <div class="container mt-3">
-      <div class="row mt-3" v-for="(review, index) in reviews" :key="review.pk">
-        <div class="col-8">
-          <h3 class="mb-0">
+    <div class="container mt-3 ">
+      <div class="row mt-3 reviewDetail" 
+            v-for="(review, index) in reviews" 
+            :key="review.pk">
+        <div class="col-8 pt-3">
+          <h3>
             Visité par:
             <b>{{ review.review_author }}</b>, le
             <i>{{ review.created_at }}</i>
           </h3>
-          <hr class="mb-0" />
+          
         </div>
         <div class="col-4 text-center my-auto">
           <button
@@ -74,7 +77,7 @@
             @click="reviewToShow= null"
           >Refermer</button>
         </div>
-        <hr />
+        
 
         <div v-show="reviewToShow == index">
           <ReviewDetail :id="review.id" />
@@ -186,4 +189,15 @@ export default {
 .naviMenu > ul li {
   list-style-type: none;
 }
+.reviewDetail {
+  background-color: white;
+  border: 1px solid 
+}
+body {
+  background-image:url(../assets/Optimized-banana_palms.jpg);
+}
+/* .card-body {
+  background-color: rgba(76, 175, 80, 0.3)  
+} */
+
 </style>

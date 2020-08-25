@@ -6,10 +6,10 @@
             :key="review.pk">
         <div class="col-8">
           <p class="mb-0">Visité par:
-            <span><b>{{ review.review_author }}</b>, le  <i>{{ review.created_at }}</i></span>
+            <span><b class="text-danger">{{ review.review_author }}</b>, le  <i>{{ review.created_at }}</i></span>
           </p>
           <h2><b>{{ review.restaurant_name }}</b></h2>          
-          <p>{{ review.restaurant_adress }}</p> 
+          <p class="text-success" >{{ review.restaurant_adress }}</p> 
           <hr class="mb-0">    
         </div>
         <div class="col-4 text-center my-auto">
@@ -63,7 +63,7 @@ export default {
     height: 0px;
 }
 body {
-  background-image:url(../assets/Optimized-banana_palms.jpg);
+  background-image:url(../assets/Optimized-117.jpg);
 }
 
 .singleReview {

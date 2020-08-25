@@ -1,12 +1,12 @@
 <template>
   <div>
-    <div class="row flex mt-4" style="height:450px">
+    <div class="row flex mt-4">
 
       <div class="col-md-6">
         <div class="row" id="grid">
           <div v-for="(picture, index) in pictures"
           :key="picture.pk"
-          class="col-md-4 my-auto"
+          class="col-md-3 my-auto"
           >   
           <div @click="picToShow= index">                 
             <img class="img-thumbnail img-responsive" :src="picture.picture_1">

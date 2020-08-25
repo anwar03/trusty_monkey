@@ -3,11 +3,14 @@
     <div class="row">
       <div v-for="(picture, index) in storeState.pictures"
           :key="index"
-          class="col-md-2 my-auto">   
+          class="col-md-2 my-auto mt-2">   
           <div >                 
             <img class="img-thumbnail img-responsive" 
-                :src="picture.url"
-                @click="deleteMe(picture, picToDelete = index)">                           
+                :src="picture.url">
+                <button class='btn btn-sm'
+                @click="deleteMe(picture, picToDelete = index)">
+                <i class="far fa-minus-square fa-2x text-danger"></i>
+                </button>                           
           </div>          
       </div>      
     </div>    
@@ -36,15 +39,9 @@ export default {
       let method = "DELETE";
       apiService(endpoint, method);
       console.log(this.picToDelete)
-      store.deletePicture(this.picToDelete)
+      store.deletedPicture()
+      store.deletePicture(this.picToDelete)      
     }
   }
 }
 </script>
-
-
-<style lang="stylus" scoped>
-img: hover {
-
-}
-</style>

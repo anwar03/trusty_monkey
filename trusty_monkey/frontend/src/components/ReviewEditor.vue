@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="editor">
 
   <div>
     <PictureUpload/>    
@@ -8,33 +8,44 @@
 
     <div>    
       
-      <div v-show="upUrl != null && submit == false" class="custom-file">
-        <div class="d-flex flex-row">
-          <input type="file" class="custom-file-input" @change="onFileSelected">
-          <label class="custom-file-label" for="customFile">Choose file</label>
+      <div v-show="upUrl != null && submit == false" class="col-md-6 mx-auto mb-3">
+        <div class="d-flex">          
+            <input type="file"
+                  class="custom-file-input"
+                  @change="onFileSelected">
+            <label class="custom-file-label" 
+                    for="customFile">Choisir une photo</label>          
         </div>         
       </div>
 
       <div v-show="submit== true" >
-        <div class="d-flex flex-row justify-content-around">
-          <button class="btn btn-success" @click="onUpload"> Soumettre </button>
-          <button class="btn btn-danger" @click="showCatBut= true, submit= false, upUrl= null"> Annuler </button>
+        <div class="d-flex flex-row justify-content-around mb-3">
+          <button class="btn btn-sm btn-success" 
+                  @click="onUpload"> Soumettre </button>
+          <button class="btn btn-sm btn-danger"
+                  @click="showCatBut= true, submit= false,
+                  upUrl= null"> Annuler </button>
         </div>
       </div>
 
       <div v-show="showCatBut== true">
         <div class="d-flex flex-row justify-content-around">
-          <div class="mt-3" v-for="(buttonPic, index) in buttonPics" :key="buttonPic">
-            <button class="btn btn-sm btn-outline-success" @click="upUrl= index, showCatBut= false"> {{ buttonPic }} </button>          
+          <div class="mt-3" v-for="(buttonPic, index) in buttonPics"
+                           :key="buttonPic">
+            <button class="btn btn-sm btn-outline-success" 
+                    @click="upUrl= index, 
+                    showCatBut= false"> {{ buttonPic }} </button>          
           </div>
         </div>
-         <div class='mt-3'>          
-            <p><i>(Plus que {{ totalPics }} pour términer!)</i></p>          
-        </div>
+         <!-- <div class='mt-3'>          
+            <p><i>(Plus que {{ storeState.totalPics }} pour términer!)</i></p>          
+        </div> -->
       </div>
 
-      <div v-show="totalPics == 0">
-            <button class="btn btn-success" @click="goHome">Soumettre</button>
+      <div>
+      <!-- <div v-show="storeState.totalPics == 0"> -->
+            <button class="btn btn-success btn-sm m-3 " 
+                    @click="goHome">Soumettre</button>
       </div>  
 
     </div>
@@ -61,10 +72,11 @@ export default {
       upUrl: null,
       submit: false,
       showCatBut: true,
-      endpoint: null,
-      totalPics: 6,
+      endpoint: null,      
       newPictureUrl: null,      
-      buttonPics: ['Entrée', 'Plat-principal', 'Dessert', 'Menu', 'Extérieur', 'Intérieur'],                          
+      buttonPics: ['Entrée', 'Plat-principal',
+                  'Dessert', 'Menu', 'Extérieur',
+                  'Intérieur'],                         
     }
   },
   props: {
@@ -106,7 +118,7 @@ export default {
           this.upUrl = null
           this.submit = false
           this.showCatBut = true
-          this.totalPics -= 1
+          store.uploadedPicture()
           let newPictureUrl = res.data.picture_1
           let newPictureId = res.data.id
           let apiURL = res.config.url
@@ -121,15 +133,15 @@ export default {
        
     }
   },
-  watch: {
-    totalPics: function() {
-      if (this.totalPics == 0) {     
-        this.upUrl= null,
-        this.submit= false,
-        this.showCatBut= false        
-      }
-    }
-  },
+  // watch: {
+  //   totalPics: function() {
+  //     if (this.storeState.totalPics == 0) {     
+  //       this.upUrl= null,
+  //       this.submit= false,
+  //       this.showCatBut= false        
+  //     }
+  //   }
+  // },
   components: {
     PictureUpload
     }, 
@@ -138,5 +150,13 @@ export default {
 </script>
 
 <style>
+
+.editor {
+  background-color: white;
+  border: 1px solid 
+}
+.custom-file-label {
+  background-color: rgb(234, 236, 122);
+}
 
 </style>

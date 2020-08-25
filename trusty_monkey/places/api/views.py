@@ -14,7 +14,7 @@ class RestaurantIdViewset(viewsets.ModelViewSet):
 
 
 class RestaurantReviewViewset(viewsets.ModelViewSet):
-    queryset = models.RestaurantReview.objects.all()
+    queryset = models.RestaurantReview.objects.all().order_by("-created_at")
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return serializers.RestaurantReviewGETSerializer 
@@ -31,7 +31,7 @@ class RestaurantReviewListAPIView(generics.ListAPIView):
     def get_queryset(self):
         kwarg_maps = self.kwargs.get('maps')       
         return models.RestaurantReview.objects.filter(
-                                maps=kwarg_maps)
+                                maps=kwarg_maps).order_by("-created_at")
     def get_serializer_class(self):
         if self.request.method == 'GET':
             return serializers.RestaurantReviewGETSerializer 
