@@ -36,14 +36,10 @@
                     @click="upUrl= index, 
                     showCatBut= false"> {{ buttonPic }} </button>          
           </div>
-        </div>
-         <!-- <div class='mt-3'>          
-            <p><i>(Plus que {{ storeState.totalPics }} pour términer!)</i></p>          
-        </div> -->
+        </div>        
       </div>
 
-      <div>
-      <!-- <div v-show="storeState.totalPics == 0"> -->
+      <div>      
             <button class="btn btn-success btn-sm m-3 " 
                     @click="goHome">Soumettre</button>
       </div>  
@@ -132,16 +128,7 @@ export default {
       this.$router.push({name: 'home'});
        
     }
-  },
-  // watch: {
-  //   totalPics: function() {
-  //     if (this.storeState.totalPics == 0) {     
-  //       this.upUrl= null,
-  //       this.submit= false,
-  //       this.showCatBut= false        
-  //     }
-  //   }
-  // },
+  }, 
   components: {
     PictureUpload
     }, 
