@@ -196,8 +196,5 @@ export default {
 body {
   background-image:url(../assets/Optimized-banana_palms.jpg);
 }
-/* .card-body {
-  background-color: rgba(76, 175, 80, 0.3)  
-} */
 
 </style>

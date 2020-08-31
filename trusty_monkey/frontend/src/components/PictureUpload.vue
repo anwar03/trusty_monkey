@@ -37,9 +37,7 @@ export default {
     deleteMe(picture) {     
       let endpoint = picture.apiUrl + picture.id +"/"
       let method = "DELETE";
-      apiService(endpoint, method);
-      console.log(this.picToDelete)
-      store.deletedPicture()
+      apiService(endpoint, method);      
       store.deletePicture(this.picToDelete)      
     }
   }

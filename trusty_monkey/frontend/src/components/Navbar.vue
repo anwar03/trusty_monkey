@@ -28,6 +28,8 @@
 
 <script>
 import VueGoogleAutocomplete from "vue-google-autocomplete";
+import { store } from "../common/store.js";
+
 export default {
   name: "NavbarComponent",
   components: { VueGoogleAutocomplete },
@@ -47,14 +49,15 @@ export default {
     },
     getAddressData(addressData, placeResultData) {
       this.placeResultData = placeResultData;
-      this.addressData = addressData;
-      console.log(this.placeResultData.place_id)       
+      this.addressData = addressData;      
+      this.lat = this.placeResultData.geometry.location.lat(),
+      this.lng = this.placeResultData.geometry.location.lng(),         
+      store.setRestLat(this.lat)      
+      store.setRestLng(this.lng)      
       this.$router.push({ name: "rest_reviews", 
                 params: { maps: this.placeResultData.place_id,
                           name: this.placeResultData.name,
                           adress: this.placeResultData.formatted_address,
-                          lat: this.placeResultData.geometry.location.lat(),
-                          lng: this.placeResultData.geometry.location.lng(),
                           opening_hours: this.placeResultData.opening_hours.weekday_text,
                           phone: this.placeResultData.formatted_phone_number,
                           website: this.placeResultData.website,

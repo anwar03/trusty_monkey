@@ -1,7 +1,8 @@
 export const store = {
     state: {
       pictures: [],
-      totalPics: 6,
+      restLat: null,
+      restLng: null,
     },
     addPicture(newPicture) {      
       this.state.pictures.push(newPicture);
@@ -9,10 +10,10 @@ export const store = {
     deletePicture(index) {
       this.state.pictures.splice(index,1);
     },
-    uploadedPicture() {
-      this.state.totalPics -= 1
+    setRestLat(lat) {
+      this.state.restLat = lat
     },
-    deletedPicture() {
-      this.state.totalPics += 1
-    },
+    setRestLng(lng) {
+      this.state.restLng = lng
+    }
   }

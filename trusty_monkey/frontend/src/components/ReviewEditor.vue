@@ -9,13 +9,15 @@
     <div>    
       
       <div v-show="upUrl != null && submit == false" class="col-md-6 mx-auto mb-3">
-        <div class="d-flex">          
+        <!-- <div class="d-flex">          
             <input type="file"
                   class="custom-file-input"
                   @change="onFileSelected">
             <label class="custom-file-label" 
                     for="customFile">Choisir une photo</label>          
-        </div>         
+        </div>          -->
+        <Resize/>
+        
       </div>
 
       <div v-show="submit== true" >
@@ -54,6 +56,7 @@ import { store } from "../common/store.js"
 import axios from 'axios'
 import { CSRF_TOKEN } from "../common/csrf_token.js"
 import PictureUpload from "@/components/PictureUpload.vue";
+import Resize from "@/components/Resize.vue"
 
 export default {
   name: "ReviewEditor",
@@ -114,7 +117,6 @@ export default {
           this.upUrl = null
           this.submit = false
           this.showCatBut = true
-          store.uploadedPicture()
           let newPictureUrl = res.data.picture_1
           let newPictureId = res.data.id
           let apiURL = res.config.url
@@ -130,7 +132,8 @@ export default {
     }
   }, 
   components: {
-    PictureUpload
+    PictureUpload,
+    Resize
     }, 
   }
 

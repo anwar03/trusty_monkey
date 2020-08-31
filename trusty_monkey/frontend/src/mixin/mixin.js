@@ -1,4 +1,12 @@
-export default {  
+import haversine from "haversine"
+
+export default {
+  data() {
+    return {      
+      lat: null,
+      lng: null,      
+    }
+  },  
   methods: {
     calculateCoordPicture: function() {     
       var latitudes = []
@@ -16,7 +24,21 @@ export default {
       var lng = longitudes[0]
               + (longitudes[1] / 60)
               + (longitudes[2] / 3600)
-      return (lat, lng)     
+      this.lat = lat
+      this.lng = lng
+      return (this.lat, this.lng)     
+    },
+    checkIfPicInRange: function() {
+      this.start = {
+        latitude: 30.849635,
+        longitude: -83.24559
+      }
+      this.end = {
+        latitude: 27.950575,
+        longitude: -82.457178
+      }        
+      console.log(haversine(this.start, this.end))
+      console.log("toto rigolos")
     }
   }
 }

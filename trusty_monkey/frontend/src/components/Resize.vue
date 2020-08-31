@@ -25,12 +25,16 @@
 <script>
 import mixin from "../mixin/mixin.js"
 import ImageUploader from 'vue-image-upload-resize'
-import axios from 'axios'
-import { CSRF_TOKEN } from "../common/csrf_token.js"
+import { store } from "../common/store.js";
 
 export default {
   name: "Resize",
   mixins: [mixin],
+  computed:{
+    storeState(){
+      return store.state;
+   }
+  },
   data() {
     return {      
       hasImage: false,
@@ -40,20 +44,11 @@ export default {
   methods: {
     setImage: function(output) {
       this.hasImage = true;
-      this.image = output;
-      this.calculateCoordPicture()
-      
-      const fd = new FormData();
-      let axiosConfig = {
-        headers: {
-          'X-CSRFTOKEN': CSRF_TOKEN,           
-        }
-      };     
-      fd.append('picture_1', this.image)
-      fd.append('restaurant_review', 369)
-      axios.post(`http://127.0.0.1:8000/api/main_pic/`, fd, axiosConfig)
-        .then(res => {  
-          console.log(res) })           
+      this.image = output;      
+      this.calculateCoordPicture();      
+      console.log(this.storeState.restLat, this.storeState.restLng);
+      console.log(this.lat, this.lng);
+      this.checkIfPicInRange()
     },   
   },
   components: {
