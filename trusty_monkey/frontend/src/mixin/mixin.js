@@ -30,15 +30,19 @@ export default {
     },
     checkIfPicInRange: function() {
       this.start = {
-        latitude: 30.849635,
-        longitude: -83.24559
+        latitude: this.storeState.restLat,
+        longitude: this.storeState.restLng
       }
       this.end = {
-        latitude: 27.950575,
-        longitude: -82.457178
+        latitude: this.lat,
+        longitude: this.lng
       }        
-      console.log(haversine(this.start, this.end))
-      console.log("toto rigolos")
+      this.distance = haversine(this.start, this.end)
+      if (this.distance > 0.2) {
+        console.log("trop loin")}
+      else { console.log("c'est bon")
+      }
     }
   }
 }
+
