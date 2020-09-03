@@ -1,5 +1,5 @@
 <template>
-  <div class="container">   
+  <div class="container" style="text-align: center">   
     <div class="my-8">
       <image-uploader
         :preview="false"
@@ -14,10 +14,11 @@
         >
         <label for="fileInput" slot="upload-label">        
           <span class="upload-caption">
-            "Ajouter une photo"
+            <i class='fas fa-camera-retro' style='font-size:40px;color:blue'></i>
           </span>
-        </label>
-      </image-uploader>      
+        </label>        
+      </image-uploader>
+      <p v-if="error" class="text-danger mt-2">{{ error }}</p>     
     </div>    
   </div>
 </template>
@@ -38,17 +39,22 @@ export default {
   data() {
     return {      
       hasImage: false,
-      image: null,      
+      image: null,
+      error: null,    
     }
   },
   methods: {
     setImage: function(output) {
       this.hasImage = true;
-      this.image = output;      
-      this.calculateCoordPicture();      
-      console.log(this.storeState.restLat, this.storeState.restLng);
-      console.log(this.lat, this.lng);
-      this.checkIfPicInRange()
+      this.image = output;
+      if (this.image.exif.GPSLatitude) {
+        this.calculateCoordPicture();  
+        this.checkIfPicInRange()
+        if(this.checkIfPicInRange()) {
+          this.error = null
+          this.checkImageLabels();          
+        } else {this.error = "Votre photo ne semble pas avoir été prise dans ce restaurant"}
+      } else {this.error = "Avez vous activé la géolocalisation sur votre téléphone?"}        
     },   
   },
   components: {

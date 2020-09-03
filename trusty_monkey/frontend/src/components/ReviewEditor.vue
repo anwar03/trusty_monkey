@@ -9,15 +9,7 @@
     <div>    
       
       <div v-show="upUrl != null && submit == false" class="col-md-6 mx-auto mb-3">
-        <!-- <div class="d-flex">          
-            <input type="file"
-                  class="custom-file-input"
-                  @change="onFileSelected">
-            <label class="custom-file-label" 
-                    for="customFile">Choisir une photo</label>          
-        </div>          -->
         <Resize/>
-        
       </div>
 
       <div v-show="submit== true" >
@@ -61,8 +53,8 @@ import Resize from "@/components/Resize.vue"
 export default {
   name: "ReviewEditor",
   computed:{
-     storeState(){
-    return store.state;
+    storeState(){
+      return store.state;
    }
   },
   data() {

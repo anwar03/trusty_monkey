@@ -1,14 +1,18 @@
 import haversine from "haversine"
+import axios from "axios"
+
 
 export default {
   data() {
     return {      
       lat: null,
-      lng: null,      
+      lng: null,
+      apiKey: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos",
+      picToCheck: null,    
     }
   },  
   methods: {
-    calculateCoordPicture: function() {     
+    calculateCoordPicture() {     
       var latitudes = []
       var longitudes = []
       var i
@@ -28,7 +32,7 @@ export default {
       this.lng = lng
       return (this.lat, this.lng)     
     },
-    checkIfPicInRange: function() {
+    checkIfPicInRange () {
       this.start = {
         latitude: this.storeState.restLat,
         longitude: this.storeState.restLng
@@ -38,11 +42,31 @@ export default {
         longitude: this.lng
       }        
       this.distance = haversine(this.start, this.end)
-      if (this.distance > 0.2) {
-        console.log("trop loin")}
-      else { console.log("c'est bon")
+      if (this.distance < 0.2) {
+        return true}
+      else {return false}
+    },
+    checkImageLabels () {
+      this.picToCheck = this.image.dataUrl.replace(/^data:image\/[a-z]+;base64,/, "");
+      let axiosConfig = {
+        "requests" : [{
+          "features": [{
+            "type": "LABEL_DETECTION"
+          }],
+          "image": {
+            "content": this.picToCheck
+          }
+        }]
       }
-    }
+      axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${this.apiKey}`, axiosConfig)
+        .then(response => {
+          const labels = []
+          let slicedLabelArray = response.data.responses[0].labelAnnotations.slice(0,3)
+          slicedLabelArray.forEach(function(label) {
+            labels.push(label.description)
+          console.log(labels)
+          })
+        })
+    },      
   }
 }
-

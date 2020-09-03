@@ -118,7 +118,7 @@ export default {
     mapUrl() {
       const url = "https://maps.googleapis.com/maps/api/staticmap";
       const params = new URLSearchParams({
-        center: `${this.$route.params.lat},${this.$route.params.lng}`,
+        center: `${this.storeState.restLat},${this.storeState.restLng}`,
         zoom: 15,
         size: "250x250",
         maptype: "terrain",

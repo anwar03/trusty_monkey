@@ -51,7 +51,7 @@ export default {
       this.placeResultData = placeResultData;
       this.addressData = addressData;      
       this.lat = this.placeResultData.geometry.location.lat(),
-      this.lng = this.placeResultData.geometry.location.lng(),         
+      this.lng = this.placeResultData.geometry.location.lng(),      
       store.setRestLat(this.lat)      
       store.setRestLng(this.lng)      
       this.$router.push({ name: "rest_reviews", 
