@@ -6,40 +6,39 @@
     <hr/>
   </div>
 
-    <div>    
-      
-      <div v-show="upUrl != null && submit == false" class="col-md-6 mx-auto mb-3">
-        <Resize/>
-      </div>
+  <div>    
+    
+  <div v-show="upUrl != null && this.storeState.submit == false" class="col-md-6 mx-auto mb-3">
+    <Resize/>
+  </div>
 
-      <div v-show="submit== true" >
-        <div class="d-flex flex-row justify-content-around mb-3">
-          <button class="btn btn-sm btn-success" 
-                  @click="onUpload"> Soumettre </button>
-          <button class="btn btn-sm btn-danger"
-                  @click="showCatBut= true, submit= false,
-                  upUrl= null"> Annuler </button>
-        </div>
-      </div>
-
-      <div v-show="showCatBut== true">
-        <div class="d-flex flex-row justify-content-around">
-          <div class="mt-3" v-for="(buttonPic, index) in buttonPics"
-                           :key="buttonPic">
-            <button class="btn btn-sm btn-outline-success" 
-                    @click="upUrl= index, 
-                    showCatBut= false"> {{ buttonPic }} </button>          
-          </div>
-        </div>        
-      </div>
-
-      <div>      
-            <button class="btn btn-success btn-sm m-3 " 
-                    @click="goHome">Soumettre</button>
-      </div>  
-
+  <div v-show="this.storeState.submit== true" >
+    <div class="d-flex flex-row justify-content-around mb-3">
+      <button class="btn btn-sm btn-success" 
+              @click="onUpload"> Soumettre </button>
+      <button class="btn btn-sm btn-danger"
+              @click="showCatBut= true, submit= false,
+              upUrl= null"> Annuler </button>
     </div>
+  </div>
 
+  <div v-show="showCatBut== true">
+    <div class="d-flex flex-row justify-content-around">
+      <div class="mt-3" v-for="(buttonPic, index) in buttonPics"
+                        :key="buttonPic">
+        <button class="btn btn-sm btn-outline-success" 
+                @click="upUrl= index, 
+                showCatBut= false"> {{ buttonPic }} </button>          
+      </div>
+    </div>        
+  </div>
+
+  <div>      
+        <button class="btn btn-success btn-sm m-3 " 
+                @click="goHome">Soumettre</button>
+  </div>  
+
+  </div>
 </div> 
 </template>
 
@@ -76,12 +75,11 @@ export default {
       required: true
     },
   },  
-  methods: {   
-    onFileSelected(event) {
-      this.selectedFile = event.target.files[0]
-      this.submit = true                 
-    },    
-    onUpload() {      
+  methods: {       
+    onUpload() {
+      this.selectedFile = this.storeState.file
+      store.setSubmit()      
+      this.submit = true     
       const fd = new FormData();
       let axiosConfig = {
         headers: {
@@ -119,8 +117,7 @@ export default {
         })
     },
     goHome() {
-      this.$router.push({name: 'home'});
-       
+      this.$router.push({name: 'home'})           
     }
   }, 
   components: {
@@ -128,11 +125,9 @@ export default {
     Resize
     }, 
   }
-
 </script>
 
 <style>
-
 .editor {
   background-color: white;
   border: 1px solid 
@@ -140,5 +135,4 @@ export default {
 .custom-file-label {
   background-color: rgb(234, 236, 122);
 }
-
 </style>

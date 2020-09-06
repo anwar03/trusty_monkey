@@ -1,5 +1,6 @@
 import haversine from "haversine"
 import axios from "axios"
+import { store } from "../common/store.js"
 
 
 export default {
@@ -10,7 +11,12 @@ export default {
       apiKey: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos",
       picToCheck: null,    
     }
-  },  
+  },
+  computed:{
+    storeState(){
+      return store.state;
+   }
+  },
   methods: {
     calculateCoordPicture() {     
       var latitudes = []
@@ -35,7 +41,7 @@ export default {
     checkIfPicInRange () {
       this.start = {
         latitude: this.storeState.restLat,
-        longitude: this.storeState.restLng
+        longitude: this.storeState.restLng,        
       }
       this.end = {
         latitude: this.lat,
@@ -52,6 +58,9 @@ export default {
         "requests" : [{
           "features": [{
             "type": "LABEL_DETECTION"
+          },
+          {
+            "type": "FACE_DETECTION"
           }],
           "image": {
             "content": this.picToCheck
@@ -59,14 +68,28 @@ export default {
         }]
       }
       axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${this.apiKey}`, axiosConfig)
-        .then(response => {
-          const labels = []
-          let slicedLabelArray = response.data.responses[0].labelAnnotations.slice(0,3)
+        .then(response => {          
+          let slicedLabelArray = response.data.responses[0].labelAnnotations.slice(0,5)
           slicedLabelArray.forEach(function(label) {
-            labels.push(label.description)
-          console.log(labels)
+            let labelToAdd= label.description
+            store.addLabels(labelToAdd)
+            console.group("Done!!!!!")        
+                            
           })
         })
-    },      
+    },
+    imageConversion () {
+      var byteString = atob(this.image.dataUrl.split(',')[1]);
+      var ab = new ArrayBuffer(byteString.length);
+      var ia = new Uint8Array(ab);
+      for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+      }
+      var blob = new Blob([ia], {
+        type: 'image/jpeg'
+      });
+      var file = new File([blob], "image.jpg");
+      store.setFile(file)
+    }      
   }
 }
