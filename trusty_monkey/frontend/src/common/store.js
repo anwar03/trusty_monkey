@@ -6,6 +6,8 @@ export const store = {
       restLng: null,
       file: null,
       submit: false,
+      showCatBut: true,
+      upError: null,
     },
     addPicture(newPicture) {      
       this.state.pictures.push(newPicture);
@@ -27,5 +29,11 @@ export const store = {
     },
     addLabels(label) {
       this.state.labels.push(label)
-    }   
+    },
+    setShowCatBut() {
+      this.state.showCatBut = !this.state.showCatBut
+    },
+    setUpError(error) {
+      this.state.upError = error 
+    }
   }
