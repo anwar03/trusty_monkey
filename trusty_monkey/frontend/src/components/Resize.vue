@@ -55,7 +55,7 @@ export default {
           this.error = null
           this.checkImageLabels()                  
           this.imageConversion()
-          store.setSubmit()          
+                    
         } else {this.error = "Votre photo ne semble pas avoir été prise dans ce restaurant"}
       } else {this.error = "Avez vous activé la géolocalisation sur votre téléphone?"}        
     },   

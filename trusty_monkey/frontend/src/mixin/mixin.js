@@ -72,10 +72,10 @@ export default {
           let slicedLabelArray = response.data.responses[0].labelAnnotations.slice(0,5)
           slicedLabelArray.forEach(function(label) {
             let labelToAdd= label.description
-            store.addLabels(labelToAdd)
-            console.group("Done!!!!!")        
-                            
+            store.addLabels(labelToAdd)            
           })
+          store.setSubmit()
+          console.log(this.storeState.labels)                  
         })
     },
     imageConversion () {
