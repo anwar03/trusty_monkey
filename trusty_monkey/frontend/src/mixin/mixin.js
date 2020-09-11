@@ -75,7 +75,8 @@ export default {
             store.addLabels(labelToAdd)            
           })
           store.setSubmit()
-          console.log(this.storeState.labels)                  
+          console.log(this.storeState.labels)
+          store.setPreloader()                 
         })
     },
     imageConversion () {

@@ -94,9 +94,11 @@ import ReviewEditor from "@/components/ReviewEditor.vue";
 import { store } from "../common/store.js";
 export default {
   name: "rest_reviews",
+
   props: {
     maps: { type: String, required: true }
   },
+
   data() {
     return {
       isHidden: false,
@@ -107,13 +109,15 @@ export default {
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
       error: null,
-      storeState: store.state
-    };
+      storeState: store.state,
+    }
   },
+
   components: {
     ReviewDetail,
     ReviewEditor
   },
+
   computed: {
     mapUrl() {
       const url = "https://maps.googleapis.com/maps/api/staticmap";
@@ -124,17 +128,20 @@ export default {
         maptype: "terrain",
         key: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos"
       });
-      return `${url}?${params}`;
+      return `${url}?${params}`
     }
   },
+
   methods: {
+
     getReviews() {
       let endpoint = `/api/rest_review/${this.maps}/`;
       apiService(endpoint).then(data => {
         this.reviews.push(...data);
       });
     },
-    addRestaurant() {
+
+    addRestaurant() {      
       this.storeState.pictures = []
       let endpoint = `/api/restaurant/`;
       let method = "POST";
@@ -142,15 +149,15 @@ export default {
         maps: this.$route.params.maps,
         adress: this.$route.params.adress,
         name: this.$route.params.name
-      };
-
+      }        
       apiService(endpoint, method, config)
         .then(data => {
           console.log("Restaurant added!" + data);
           this.addReview();
         })
         .catch(error => console.log(error));
-    },
+      },
+
     addReview() {
       let endpoint = `/api/restaurant_review/`;
       let method = "POST";
@@ -159,11 +166,13 @@ export default {
         review_author: 1
       }).then(res => {
         this.review_id = res.id;        
-      });
+      })
     },
+
     showTheEditor() {
-      this.showEditor = true;
+      this.showEditor = true
     },
+
     deleteReview() {
       let endpoint = `/api/restaurant_review/${this.review_id}/`;
       let method = "DELETE";
@@ -171,10 +180,12 @@ export default {
       this.$router.push({ name: "home" });
     }
   },
+
   created() {
     this.getReviews();    
   },
-  watch: {
+
+  watch:{
     maps: function() {
       if (this.maps) {
         this.reviews = [];        
@@ -182,7 +193,9 @@ export default {
       }
     }
   }
-};
+
+}
+
 </script>
 
 <style>

@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     setImage: function(output) {
+      store.setPreloader()
       this.hasImage = true;
       this.image = output;
       if (this.image.exif != null) {
@@ -53,7 +54,7 @@ export default {
           this.checkIfPicInRange()
           if(this.checkIfPicInRange()) {
             this.error = null
-            this.checkImageLabels()                  
+            this.checkImageLabels()                               
             this.imageConversion()                    
           } else {store.setUpError("Votre photo ne semble pas avoir été prise dans ce restaurant")
                   store.setShowCatBut()}

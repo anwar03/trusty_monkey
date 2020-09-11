@@ -6,15 +6,23 @@
     <hr/>
   </div>
 
-  <div>    
-    
+  <div>
+
+  <div class="container text-center" v-show="this.storeState.preLoader">
+    <img src="https://media.giphy.com/media/pFwRzOLfuGHok/giphy.gif" class="w-25">
+      <div class="container border border-success rounded w-25 h-50 m-auto text-center mt-2">
+        <p class="text-success my-auto">Nos ingénieurs inspectent votre photo.</p>
+      </div>
+  </div>
+
   <div v-show="upUrl != null && this.storeState.submit == false 
-                            && this.storeState.showCatBut == false" 
+                            && this.storeState.showCatBut == false
+                            && this.storeState.preLoader == false" 
                             class="col-md-6 mx-auto mb-3">
     <Resize/>
   </div>
 
-  <div v-show="this.storeState.submit== true" >
+  <div v-show="this.storeState.submit == true" >
     
     <div class="d-flex flex-row justify-content-around mb-3">
       <button class="btn btn-sm btn-success" 
@@ -69,7 +77,7 @@ export default {
       selectedFile: null,
       upUrl: null,      
       endpoint: null,      
-      newPictureUrl: null,      
+      newPictureUrl: null,            
       buttonPics: ['Entrée', 'Plat-principal',
                   'Dessert', 'Menu', 'Extérieur',
                   'Intérieur'],                         
@@ -83,6 +91,7 @@ export default {
   },  
   methods: {       
     onUpload() {
+          
       this.selectedFile = this.storeState.file
       store.setSubmit()    
       const fd = new FormData();
@@ -131,6 +140,7 @@ export default {
         axios.post(`http://127.0.0.1:8000/api/${this.endpoint}/`, fd, axiosConfig)
           .then(res => {                                  
             this.upUrl = null
+            
             store.setSubmit()
             store.setShowCatBut()          
             this.storeState.submit = false
