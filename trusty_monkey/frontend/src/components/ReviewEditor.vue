@@ -9,28 +9,18 @@
   <div>
 
   <div class="container text-center" v-show="this.storeState.preLoader">
-    <img src="https://media.giphy.com/media/pFwRzOLfuGHok/giphy.gif" class="w-25">
-      <div class="container border border-success rounded w-25 h-50 m-auto text-center mt-2">
-        <p class="text-success my-auto">Nos ingénieurs inspectent votre photo.</p>
-      </div>
+    <div>
+      <img src="https://media.giphy.com/media/pFwRzOLfuGHok/giphy.gif" class="w-25">
+    </div>
+    <div class="border border-success rounded w-50 mx-auto mt-3">
+      <p class="text-success my-auto">Nos ingénieurs inspectent votre photo.</p>
+    </div>
   </div>
 
-  <div v-show="upUrl != null && this.storeState.submit == false 
-                            && this.storeState.showCatBut == false
+  <div v-show="upUrl != null && this.storeState.showCatBut == false
                             && this.storeState.preLoader == false" 
                             class="col-md-6 mx-auto mb-3">
     <Resize/>
-  </div>
-
-  <div v-show="this.storeState.submit == true" >
-    
-    <div class="d-flex flex-row justify-content-around mb-3">
-      <button class="btn btn-sm btn-success" 
-              @click="onUpload"> Ajouter </button>
-      <button class="btn btn-sm btn-danger"
-              @click="store.setShowCatBut(), submit= false,
-              upUrl= null"> Annuler </button>
-    </div>
   </div>
 
   <div v-show="this.storeState.showCatBut== true">
@@ -80,7 +70,7 @@ export default {
       newPictureUrl: null,            
       buttonPics: ['Entrée', 'Plat-principal',
                   'Dessert', 'Menu', 'Extérieur',
-                  'Intérieur'],                         
+                  'Intérieur'],      
     }
   },
   props: {
@@ -89,70 +79,89 @@ export default {
       required: true
     },
   },  
-  methods: {       
+  methods: {
+
     onUpload() {
-          
-      this.selectedFile = this.storeState.file
-      store.setSubmit()    
-      const fd = new FormData();
-      let axiosConfig = {
-        headers: {
-          'X-CSRFTOKEN': CSRF_TOKEN,           
+      if (this.storeState.labels) { 
+        this.selectedFile = this.storeState.file
+        store.setSubmit()    
+        const fd = new FormData();
+        let axiosConfig = {
+          headers: {
+            'X-CSRFTOKEN': CSRF_TOKEN,           
+          }
+        };
+        
+        if (this.upUrl == 0) {        
+          if (this.storeState.labels.includes ('Food')) {
+                this.endpoint = "starter_pic"                
+                this.storeState.upError = null}
+              else {store.setUpError("Ceci n'est pas la photo d'une entrée"),                    
+                    this.endpoint = false,
+                    store.setShowCatBut ()}
+
+        } else if (this.upUrl == 1) {
+          if (this.storeState.labels.includes ('Food')) {
+                this.endpoint = "main_pic"                
+                this.storeState.upError = null}
+              else {store.setUpError("Ceci n'est pas la photo d'un plat"),                    
+                    this.endpoint = false,
+                    store.setShowCatBut ()}
+
+        } else if (this.upUrl == 2) {          
+              if (this.storeState.labels.includes ('Dessert')) {
+                this.endpoint = "dessert_pic"                
+                this.storeState.upError = null}
+              else {store.setUpError("Ceci n'est pas la photo d'un dessert"),                    
+                    this.endpoint = false,
+                    store.setShowCatBut ()}
+
+        } else if (this.upUrl == 3) {          
+              if (this.storeState.labels.includes ('Text')) {
+                this.endpoint = "menu_pic"                
+                this.storeState.upError = null}
+              else {store.setUpError("Ceci n'est pas la photo d'un menu"),                    
+                    this.endpoint = false,
+                    store.setShowCatBut()}
+
+        } else if (this.upUrl == 4) {
+          if (this.storeState.labels.includes ('Building')) {
+                this.endpoint = "outside_pic"                
+                this.storeState.upError = null}
+              else {store.setUpError("Ceci n'est pas une photo de l'extérieur du restaurant"),                    
+                    this.endpoint = false,
+                    store.setShowCatBut ()}
+
+        } else if (this.upUrl == 5) {
+          if (this.storeState.labels.includes ('Restaurant')) {
+                this.endpoint = "inside_pic"                
+                this.storeState.upError = null}
+              else {store.setUpError("Ceci n'est pas une photo de l'interieur du restaurant"),                    
+                    this.endpoint = false,
+                    store.setShowCatBut ()}
+        } 
+        
+        if (this.endpoint != false){
+          fd.append('picture_1', this.selectedFile)
+          fd.append('restaurant_review', this.id)
+          axios.post(`http://127.0.0.1:8000/api/${this.endpoint}/`, fd, axiosConfig)
+            .then(res => {                                  
+              this.upUrl = null
+              
+              store.setSubmit()
+              store.setShowCatBut()          
+              this.storeState.submit = false
+              let newPictureUrl = res.data.picture_1
+              let newPictureId = res.data.id
+              let apiURL = res.config.url
+              let addPicDic = {"url": newPictureUrl,
+                              "id": newPictureId,
+                              "apiUrl": apiURL  }          
+              store.addPicture(addPicDic)
+              
+          })
         }
-      };
-      
-      if (this.upUrl == 0) {        
-        this.endpoint = "starter_pic"
-      } else if (this.upUrl == 1) {
-        this.endpoint = "main_pic"
-      } else if (this.upUrl == 2) {
-          for(var i = 0; i < this.storeState.labels.length; i++) {
-            if (this.storeState.labels[i] == 'Dessert') {
-              this.endpoint = "dessert_pic"
-              this.storeState.labels = []
-              this.storeState.upError = null}
-            else {store.setUpError("Ceci n'est pas la photo d'un dessert"),
-                  this.storeState.labels = []
-                  this.endpoint = false,
-                  store.setShowCatBut ()}
-          }
-      } else if (this.upUrl == 3) {
-          for(var o = 0; o < this.storeState.labels.length; o++) {
-            if (this.storeState.labels[o] == 'Text') {
-              this.endpoint = "menu_pic"
-              this.storeState.labels = []
-              this.storeState.upError = null
-              break}
-            else {store.setUpError("Ceci n'est pas la photo d'un menu"),
-                  this.storeState.labels = []
-                  this.endpoint = false,
-                  store.setShowCatBut()}
-          }
-      } else if (this.upUrl == 4) {
-        this.endpoint = "outside_pic"
-      } else if (this.upUrl == 5) {
-        this.endpoint = "inside_pic"
-      } 
-      
-      if (this.endpoint != false){
-        fd.append('picture_1', this.selectedFile)
-        fd.append('restaurant_review', this.id)
-        axios.post(`http://127.0.0.1:8000/api/${this.endpoint}/`, fd, axiosConfig)
-          .then(res => {                                  
-            this.upUrl = null
-            
-            store.setSubmit()
-            store.setShowCatBut()          
-            this.storeState.submit = false
-            let newPictureUrl = res.data.picture_1
-            let newPictureId = res.data.id
-            let apiURL = res.config.url
-            let addPicDic = {"url": newPictureUrl,
-                            "id": newPictureId,
-                            "apiUrl": apiURL  }          
-            store.addPicture(addPicDic)
-        })
-      }
+      } else {console.log('pass le oinj')}
     },
     goHome() {
       this.$router.push({name: 'home'})           
@@ -165,7 +174,12 @@ export default {
   components: {
     PictureUpload,
     Resize
-    }, 
+    },
+  watch: {
+    "storeState.labels": function () {
+      this.onUpload()
+      } 
+    } 
   }
 </script>
 

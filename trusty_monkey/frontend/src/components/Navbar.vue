@@ -4,6 +4,7 @@
       <router-link :to="{ name: 'home' }" class="navbar-brand">TrustyMonkey</router-link>
 
       <div class="collapse navbar-collapse flex-row justify-content-end">
+
         <vue-google-autocomplete
           ref="inputField"
           id="map"
@@ -16,10 +17,11 @@
 
         <ul class="navbar-nav mr-2">
           <li class="nav-item active">
-            <a v-if="requestUser" class="btn btn-danger" href="/accounts/logout/">Se deconnecter</a>
-            <a v-else class="btn btn-primary" href="/accounts/login/">Se connecter</a>
+            <a v-if="requestUser" class="btn btn-danger" href="/accounts/logout/" >Se deconnecter</a>
+            <a v-else class="btn btn-primary" href="/accounts/login/" >Se connecter</a>
           </li>
         </ul>
+
       </div>
     </div>
   </nav>
@@ -45,39 +47,38 @@ export default {
   },  
   methods: {
     setRequestUser() {
-      this.requestUser = window.localStorage.getItem("username");      
+      this.requestUser = window.localStorage.getItem("username");
+          
     },
     getAddressData(addressData, placeResultData) {
       this.placeResultData = placeResultData;
-      console.log(this.placeResultData.place_id)    
+      console.log(this.placeResultData)    
       this.lat = this.placeResultData.geometry.location.lat(),
       this.lng = this.placeResultData.geometry.location.lng(),        
       store.setRestLat(this.lat)      
       store.setRestLng(this.lng)
+      
+      if (this.placeResultData.types.includes('restaurant')) {
 
-      // for(var i = 0; i < this.placeResultData.types.length; i++) {
+        if (this.placeResultData.opening_hours == undefined) {        
+          this.opening_hours = ["lundi: Non renseigné", "mardi: Non renseigné", 
+                                "mercredi: Non renseigné", "jeudi: Non renseigné",
+                                "vendredi: Non renseigné", "samedi: Non renseigné",
+                                "dimanche: Non renseigné"] 
+        } else { this.opening_hours = this.placeResultData.opening_hours.weekday_text}
 
-      //   if (this.placeResultData.types[i] == 'restaurant') {
+        this.$router.push({ name: "rest_reviews", 
+                  params: { maps: this.placeResultData.place_id,
+                            name: this.placeResultData.name,
+                            adress: this.placeResultData.formatted_address,                          
+                            opening_hours: this.opening_hours,
+                            phone: this.placeResultData.formatted_phone_number,
+                            website: this.placeResultData.website,
+                            type: this.placeResultData.types,}})      
+        this.$refs.inputField.$refs.autocomplete.value='';   
 
-          if (this.placeResultData.opening_hours == undefined) {        
-            this.opening_hours = ["lundi: Non renseigné", "mardi: Non renseigné", 
-                                  "mercredi: Non renseigné", "jeudi: Non renseigné",
-                                  "vendredi: Non renseigné", "samedi: Non renseigné",
-                                  "dimanche: Non renseigné"] 
-          } else { this.opening_hours = this.placeResultData.opening_hours.weekday_text}
-
-          this.$router.push({ name: "rest_reviews", 
-                    params: { maps: this.placeResultData.place_id,
-                              name: this.placeResultData.name,
-                              adress: this.placeResultData.formatted_address,                          
-                              opening_hours: this.opening_hours,
-                              phone: this.placeResultData.formatted_phone_number,
-                              website: this.placeResultData.website,
-                              type: this.placeResultData.types,}})      
-          this.$refs.inputField.$refs.autocomplete.value='';   
-
-      //   } else { console.log("fuck off")}
-      // }
+      } else { this.$router.push({ name: "notarest" });
+              this.$refs.inputField.$refs.autocomplete.value='';}
     }
   }
 }

@@ -68,16 +68,17 @@ export default {
         }]
       }
       axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${this.apiKey}`, axiosConfig)
-        .then(response => {          
-          let slicedLabelArray = response.data.responses[0].labelAnnotations.slice(0,5)
+        .then(response => {    
+          this.storeState.labels = []      
+          let slicedLabelArray = response.data.responses[0].labelAnnotations.slice(0,-1)
           slicedLabelArray.forEach(function(label) {
             let labelToAdd= label.description
             store.addLabels(labelToAdd)            
           })
-          store.setSubmit()
+          // store.setSubmit()
           console.log(this.storeState.labels)
-          store.setPreloader()                 
-        })
+          store.setPreloader()                         
+        })        
     },
     imageConversion () {
       var byteString = atob(this.image.dataUrl.split(',')[1]);
@@ -90,7 +91,7 @@ export default {
         type: 'image/jpeg'
       });
       var file = new File([blob], "image.jpg");
-      store.setFile(file)
+      store.setFile(file)      
     }      
   }
 }

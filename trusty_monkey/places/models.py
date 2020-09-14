@@ -6,10 +6,7 @@ from datetime import datetime
         
 class Restaurant(models.Model):
     maps = models.CharField(primary_key=True, max_length=140, unique=True)
-    adress = models.CharField(max_length=240)
-    lat = models.FloatField(default='0000000')
-    lng = models.FloatField(default='0000000')
-    name = models.CharField(max_length=140)
+    name = models.CharField(max_length=140)   
 
     def __str__(self):
         return self.name
@@ -30,10 +27,8 @@ class StarterPic(models.Model):
     restaurant_review = models.ForeignKey(RestaurantReview,
                                                on_delete=models.CASCADE)
     name_1 = models.CharField(max_length=40, null=True, blank=True)    
-    picture_1 = models.ImageField()
-    lat_pic_1 = models.FloatField(default='0000000')
-    lng_pic_1 = models.FloatField(default='0000000')
-    shot_time_1 = models.DateTimeField(default=datetime.now)
+    picture_1 = models.ImageField()    
+    
    
     class Meta: 
         verbose_name = 'StarterPics'
@@ -42,12 +37,8 @@ class StarterPic(models.Model):
 
 class MainPic(models.Model):
     restaurant_review = models.ForeignKey(RestaurantReview,
-                                               on_delete=models.CASCADE)
-    name_1 = models.CharField(max_length=40, null=True, blank=True)    
-    picture_1 = models.ImageField()
-    lat_pic_1 = models.FloatField(default='0000000')
-    lng_pic_1 = models.FloatField(default='0000000')
-    shot_time_1 = models.DateTimeField(default=datetime.now)
+                                               on_delete=models.CASCADE)       
+    picture_1 = models.ImageField()   
    
     class Meta: 
         verbose_name = 'MainPics'
@@ -55,12 +46,8 @@ class MainPic(models.Model):
 
 class DessertPic(models.Model):
     restaurant_review = models.ForeignKey(RestaurantReview,
-                                                on_delete=models.CASCADE)
-    name_1 = models.CharField(max_length=40, null=True, blank=True)    
-    picture_1 = models.ImageField()
-    lat_pic_1 = models.FloatField(default='0000000')
-    lng_pic_1 = models.FloatField(default='0000000')
-    shot_time_1 = models.DateTimeField(default=datetime.now)    
+                                                on_delete=models.CASCADE)       
+    picture_1 = models.ImageField()      
 
     class Meta: 
         verbose_name = 'DessertPics'
@@ -70,10 +57,7 @@ class DessertPic(models.Model):
 class MenuPic(models.Model):
     restaurant_review = models.ForeignKey(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    picture_1 = models.ImageField()
-    lat_pic_1 = models.FloatField(default='0000000')
-    lng_pic_1 = models.FloatField(default='0000000')
-    shot_time_1 = models.DateTimeField(default=datetime.now)
+    picture_1 = models.ImageField()   
    
     class Meta: 
         verbose_name = 'MenuPics'
@@ -83,10 +67,7 @@ class MenuPic(models.Model):
 class OutsidePic(models.Model):
     restaurant_review = models.ForeignKey(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    picture_1 = models.ImageField()
-    lat_pic_1 = models.FloatField(default='0000000')
-    lng_pic_1 = models.FloatField(default='0000000')
-    shot_time_1 = models.DateTimeField(default=datetime.now)
+    picture_1 = models.ImageField()  
 
     class Meta: 
         verbose_name = 'OutsidePics'
@@ -96,10 +77,7 @@ class OutsidePic(models.Model):
 class InsidePic(models.Model):
     restaurant_review = models.ForeignKey(RestaurantReview,
                                                 on_delete=models.CASCADE)
-    picture_1 = models.ImageField()
-    lat_pic_1 = models.FloatField(default='0000000')
-    lng_pic_1 = models.FloatField(default='0000000')
-    shot_time_1 = models.DateTimeField(default=datetime.now)
+    picture_1 = models.ImageField()    
 
     class Meta: 
         verbose_name = 'InsidePics'

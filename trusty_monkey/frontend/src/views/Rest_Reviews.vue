@@ -7,6 +7,14 @@
         </div>
         <div class="row">
           <div>
+            <div v-show="this.$route.params.website != undefined">
+              <a class="btn btn-sm btn-warning mt-2 mr-2"
+                :href="this.$route.params.website"
+                role="button"
+                target="_blank">Site Internet</a>
+            </div>
+          </div>
+          <div>
             <button
               @click="isHidden= !isHidden"
               class="btn btn-sm btn-success mt-2 mr-2"
@@ -33,7 +41,9 @@
           <div class="mt-auto">
             <ul style="list-style-type:none">
               <h3>Horaires:</h3>
-              <li v-for="item in this.$route.params.opening_hours " :key="item">{{ item }}</li>
+              <li v-for="item in this.$route.params.opening_hours " 
+                  :key="item">{{ item }}
+              </li>
             </ul>
           </div>
           <div>
@@ -42,9 +52,15 @@
         </div>
       </div>
 
-      <div
-        class="card-footer"
-      >{{ this.$route.params.adress }}_-|&|-_ {{ this.$route.params.website }}_-|&|-_ {{ this.$route.params.phone }}</div>
+      <div class="card-footer">
+        <div class="row  justify-content-around">
+          <div> <i>{{ this.$route.params.adress }}</i> </div>
+          <div v-show="this.$route.params.phone != undefined">
+            <i class="fas fa-phone"></i> <i>{{ this.$route.params.phone }}</i>
+          </div>         
+        </div>   
+      </div>
+
     </div>
 
     <div v-if="showEditor" class="container">
@@ -141,14 +157,14 @@ export default {
       });
     },
 
-    addRestaurant() {      
+    addRestaurant() {           
       this.storeState.pictures = []
       let endpoint = `/api/restaurant/`;
       let method = "POST";
       let config = {
         maps: this.$route.params.maps,
         adress: this.$route.params.adress,
-        name: this.$route.params.name
+        name: this.$route.params.name,        
       }        
       apiService(endpoint, method, config)
         .then(data => {
@@ -158,7 +174,7 @@ export default {
         .catch(error => console.log(error));
       },
 
-    addReview() {
+    addReview() {      
       let endpoint = `/api/restaurant_review/`;
       let method = "POST";
       apiService(endpoint, method, {
@@ -204,7 +220,7 @@ export default {
 }
 .reviewDetail {
   background-color: white;
-  border: 1px solid 
+  border: 1px solid b branch
 }
 body {
   background-image:url(../assets/Optimized-banana_palms.jpg);
