@@ -4,8 +4,7 @@ export const store = {
       labels: [],
       restLat: null,
       restLng: null,
-      file: null,
-      submit: false,
+      file: null,      
       showCatBut: true,
       upError: null,
       preLoader: false,
@@ -24,10 +23,7 @@ export const store = {
     },
     setFile(file) {
       this.state.file = file
-    },
-    setSubmit() {
-      this.state.submit = !this.state.submit
-    },
+    },   
     addLabels(label) {
       this.state.labels.push(label)
     },

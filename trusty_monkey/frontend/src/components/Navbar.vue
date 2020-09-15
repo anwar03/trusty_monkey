@@ -17,8 +17,8 @@
 
         <ul class="navbar-nav mr-2">
           <li class="nav-item active">
-            <a v-if="requestUser" class="btn btn-danger" href="/accounts/logout/" >Se deconnecter</a>
-            <a v-else class="btn btn-primary" href="/accounts/login/" >Se connecter</a>
+            <a v-if="isLoggedIn" class="outBtn btn btn-outline-danger" v-on:click="logout">Se deconnecter</a>
+            <a v-else class="inBtn btn btn-outline-primary" v-on:click="login" >Se connecter</a>
           </li>
         </ul>
 
@@ -37,19 +37,23 @@ export default {
   components: { VueGoogleAutocomplete },
   data() {
     return {
-      requestUser: null,
-      addressData: "",      
+      requestUser: false,
+      addressData: "",            
     };
   },
-  created() {
-    this.setRequestUser();
-    console.log(this.requestUser)
-  },  
+  computed: {
+    isLoggedIn() {
+      console.log(window.localStorage.getItem("username"))    
+      return window.localStorage.getItem("username");      
+    }
+  },   
   methods: {
-    setRequestUser() {
-      this.requestUser = window.localStorage.getItem("username");
-          
+    login() {      
+      window.location.replace("http://127.0.0.1:8000/accounts/login/")    
     },
+    logout() {      
+      window.location.replace("http://127.0.0.1:8000/accounts/logout/")   
+    },   
     getAddressData(addressData, placeResultData) {
       this.placeResultData = placeResultData;
       console.log(this.placeResultData)    
@@ -58,9 +62,9 @@ export default {
       store.setRestLat(this.lat)      
       store.setRestLng(this.lng)
       
-      if (this.placeResultData.types.includes('restaurant')) {
-
-        if (this.placeResultData.opening_hours == undefined) {        
+      if (this.placeResultData.types.includes('restaurant') ||
+          this.placeResultData.types.includes('bar') ) 
+        { if (this.placeResultData.opening_hours == undefined) {        
           this.opening_hours = ["lundi: Non renseigné", "mardi: Non renseigné", 
                                 "mercredi: Non renseigné", "jeudi: Non renseigné",
                                 "vendredi: Non renseigné", "samedi: Non renseigné",
@@ -103,5 +107,17 @@ export default {
   border-right: none;
   border-top: none;
   border-bottom: 1px solid lightblue;
+}
+.outBtn {
+  color: red;
+}
+.outBtn:hover {
+  color: white;
+}
+.inBtn {
+  color: blue;
+}
+.inBtn:hover {
+  color: white;
 }
 </style>

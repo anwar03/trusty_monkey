@@ -53,7 +53,6 @@ import axios from 'axios'
 import { CSRF_TOKEN } from "../common/csrf_token.js"
 import PictureUpload from "@/components/PictureUpload.vue";
 import Resize from "@/components/Resize.vue"
-
 export default {
   name: "ReviewEditor",
   computed:{
@@ -80,11 +79,9 @@ export default {
     },
   },  
   methods: {
-
     onUpload() {
       if (this.storeState.labels) { 
-        this.selectedFile = this.storeState.file
-        store.setSubmit()    
+        this.selectedFile = this.storeState.file            
         const fd = new FormData();
         let axiosConfig = {
           headers: {
@@ -99,7 +96,6 @@ export default {
               else {store.setUpError("Ceci n'est pas la photo d'une entrée"),                    
                     this.endpoint = false,
                     store.setShowCatBut ()}
-
         } else if (this.upUrl == 1) {
           if (this.storeState.labels.includes ('Food')) {
                 this.endpoint = "main_pic"                
@@ -107,7 +103,6 @@ export default {
               else {store.setUpError("Ceci n'est pas la photo d'un plat"),                    
                     this.endpoint = false,
                     store.setShowCatBut ()}
-
         } else if (this.upUrl == 2) {          
               if (this.storeState.labels.includes ('Dessert')) {
                 this.endpoint = "dessert_pic"                
@@ -115,7 +110,6 @@ export default {
               else {store.setUpError("Ceci n'est pas la photo d'un dessert"),                    
                     this.endpoint = false,
                     store.setShowCatBut ()}
-
         } else if (this.upUrl == 3) {          
               if (this.storeState.labels.includes ('Text')) {
                 this.endpoint = "menu_pic"                
@@ -123,7 +117,6 @@ export default {
               else {store.setUpError("Ceci n'est pas la photo d'un menu"),                    
                     this.endpoint = false,
                     store.setShowCatBut()}
-
         } else if (this.upUrl == 4) {
           if (this.storeState.labels.includes ('Building')) {
                 this.endpoint = "outside_pic"                
@@ -131,7 +124,6 @@ export default {
               else {store.setUpError("Ceci n'est pas une photo de l'extérieur du restaurant"),                    
                     this.endpoint = false,
                     store.setShowCatBut ()}
-
         } else if (this.upUrl == 5) {
           if (this.storeState.labels.includes ('Restaurant')) {
                 this.endpoint = "inside_pic"                
@@ -146,11 +138,8 @@ export default {
           fd.append('restaurant_review', this.id)
           axios.post(`http://127.0.0.1:8000/api/${this.endpoint}/`, fd, axiosConfig)
             .then(res => {                                  
-              this.upUrl = null
-              
-              store.setSubmit()
-              store.setShowCatBut()          
-              this.storeState.submit = false
+              this.upUrl = null              
+              store.setShowCatBut()              
               let newPictureUrl = res.data.picture_1
               let newPictureId = res.data.id
               let apiURL = res.config.url
