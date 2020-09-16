@@ -29,8 +29,21 @@
           :id="review.id"/>
         </div>
         
+        
+
       </div>  
     </div>
+
+    <div class="my-4">
+          <p v-show="loadingReviews">...loading...</p>
+          <button
+          v-show="next"
+          @click="getReviews"
+          class="btn btn-sm btn-outline-success"
+          >Charger Plus
+          </button>
+    </div>
+    
   </div>  
 </template>
 
@@ -45,17 +58,29 @@ export default {
       reviews: [],
       reviewToShow: null,
       apiKey: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos",
+      next: null,
+      loadingReviews: false,
     }
   },
   components: {
     ReviewDetail
   },
   methods: {
-    getReviews() {
+    getReviews() {      
       let endpoint = "/api/restaurant_review/";
+      if (this.next) {
+        endpoint = this.next
+      }
+      this.loadingReviews = true
       apiService(endpoint)
         .then(data => {          
-          this.reviews.push(...data)          
+          this.reviews.push(...data.results)
+          this.loadingReviews = false
+          if (data.next){
+            this.next = data.next
+          } else {
+            this.next = null
+          }
       })
     }
   },

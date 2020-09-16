@@ -22,7 +22,7 @@ const routes = [
     path: "/notarest/",
     name: "notarest",
     component: Notarest
-  }, 
+  },
 ];
 
 const router = new VueRouter({

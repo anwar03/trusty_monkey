@@ -12,11 +12,13 @@
         outputFormat="verbose"
         @input="setImage"
         >
-        <label for="fileInput" slot="upload-label">
+        <!-- <label for="fileInput" slot="upload-label"> -->
+        <div>
           <span>
-            <i class='fas fa-camera-retro' style='font-size:40px;color:blue'></i>
+            <i class='fas fa-camera-retro' style='font-size:40px;color:blue'></i> 
           </span>
-        </label>        
+        </div>
+        <!-- </label> -->
       </image-uploader>          
     </div>    
   </div>

@@ -15,23 +15,17 @@
     <div class="border border-success rounded w-50 mx-auto mt-3">
       <p class="text-success my-auto">Nos ingénieurs inspectent votre photo.</p>
     </div>
-  </div>
+  </div> 
 
-  <div v-show="upUrl != null && this.storeState.showCatBut == false
-                            && this.storeState.preLoader == false" 
-                            class="col-md-6 mx-auto mb-3">
-    <Resize/>
-  </div>
+  <div v-show="this.storeState.showCatBut == true">
+    <div class="btnRow d-flex flex-row justify-content-around">
+      <div class="mt-3" v-for="(buttonPic, index) in buttonPics" :key="buttonPic">
 
-  <div v-show="this.storeState.showCatBut== true">
-    <div class="d-flex flex-row justify-content-around">
-      <div class="mt-3" v-for="(buttonPic, index) in buttonPics"
-                        :key="buttonPic">
-        <button class="btn btn-sm btn-outline-success" 
-                @click="upUrl= index, 
-                setShowCatBut()"> {{ buttonPic }} </button>          
+        <label for="fileInput" @click="upex=index, setUpUrl()"
+              class="catBtn border border-success rounded p-2"
+        >{{ buttonPic }} <Resize/> </label>
       </div>
-    </div>        
+    </div>
   </div>
 
   <div class="d-flex flex-row ">      
@@ -64,7 +58,8 @@ export default {
     return {
       error: null,
       selectedFile: null,
-      upUrl: null,      
+      upUrl: null,
+      upUrlArray: [],      
       endpoint: null,      
       newPictureUrl: null,            
       buttonPics: ['Entrée', 'Plat-principal',
@@ -80,6 +75,7 @@ export default {
   },  
   methods: {
     onUpload() {
+      console.log(this.upUrlArray)
       if (this.storeState.labels) { 
         this.selectedFile = this.storeState.file            
         const fd = new FormData();
@@ -88,28 +84,28 @@ export default {
             'X-CSRFTOKEN': CSRF_TOKEN,           
           }
         };
-        
+
         if (this.upUrl == 0) {        
           if (this.storeState.labels.includes ('Food')) {
                 this.endpoint = "starter_pic"                
                 this.storeState.upError = null}
               else {store.setUpError("Ceci n'est pas la photo d'une entrée"),                    
                     this.endpoint = false,
-                    store.setShowCatBut ()}
+                    store.setShowCatBut()}
         } else if (this.upUrl == 1) {
           if (this.storeState.labels.includes ('Food')) {
                 this.endpoint = "main_pic"                
                 this.storeState.upError = null}
               else {store.setUpError("Ceci n'est pas la photo d'un plat"),                    
                     this.endpoint = false,
-                    store.setShowCatBut ()}
+                    store.setShowCatBut()}
         } else if (this.upUrl == 2) {          
               if (this.storeState.labels.includes ('Dessert')) {
                 this.endpoint = "dessert_pic"                
                 this.storeState.upError = null}
               else {store.setUpError("Ceci n'est pas la photo d'un dessert"),                    
                     this.endpoint = false,
-                    store.setShowCatBut ()}
+                    store.setShowCatBut()}
         } else if (this.upUrl == 3) {          
               if (this.storeState.labels.includes ('Text')) {
                 this.endpoint = "menu_pic"                
@@ -123,17 +119,18 @@ export default {
                 this.storeState.upError = null}
               else {store.setUpError("Ceci n'est pas une photo de l'extérieur du restaurant"),                    
                     this.endpoint = false,
-                    store.setShowCatBut ()}
+                    store.setShowCatBut()}
         } else if (this.upUrl == 5) {
           if (this.storeState.labels.includes ('Restaurant')) {
                 this.endpoint = "inside_pic"                
                 this.storeState.upError = null}
               else {store.setUpError("Ceci n'est pas une photo de l'interieur du restaurant"),                    
                     this.endpoint = false,
-                    store.setShowCatBut ()}
+                    store.setShowCatBut()}
         } 
         
         if (this.endpoint != false){
+          console.log(this.endpoint)
           fd.append('picture_1', this.selectedFile)
           fd.append('restaurant_review', this.id)
           axios.post(`http://127.0.0.1:8000/api/${this.endpoint}/`, fd, axiosConfig)
@@ -146,19 +143,23 @@ export default {
               let addPicDic = {"url": newPictureUrl,
                               "id": newPictureId,
                               "apiUrl": apiURL  }          
-              store.addPicture(addPicDic)
-              
+              store.addPicture(addPicDic)                            
           })
         }
-      } else {console.log('pass le oinj')}
+      } 
     },
     goHome() {
       this.$router.push({name: 'home'})           
     },
-    setShowCatBut() {
-      store.setShowCatBut()
-      this.storeState.upError = null
-    }
+    setUpUrl() {
+      this.upUrlArray.push(this.upex)
+      if (this.upUrlArray.length > 1 && this.upUrlArray.length % 2 == 0) {
+        this.upUrl = this.upUrlArray[this.upUrlArray.length - 2]
+        console.log(this.upUrl)
+        store.setShowCatBut()
+        this.storeState.upError = null
+      }
+    }   
   }, 
   components: {
     PictureUpload,
@@ -179,5 +180,12 @@ export default {
 }
 .custom-file-label {
   background-color: rgb(234, 236, 122);
+}
+.btnRow {
+  background-color: white
+}
+.catBtn:hover {
+  background-color: #5cb85c;
+  color: white
 }
 </style>

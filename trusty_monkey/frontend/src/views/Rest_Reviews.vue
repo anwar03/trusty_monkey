@@ -100,6 +100,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -125,7 +126,7 @@ export default {
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
       error: null,
-      storeState: store.state,
+      storeState: store.state,      
     }
   },
 
@@ -151,9 +152,9 @@ export default {
   methods: {
 
     getReviews() {
-      let endpoint = `/api/rest_review/${this.maps}/`;
+      let endpoint = `/api/rest_review/${this.maps}/`;     
       apiService(endpoint).then(data => {
-        this.reviews.push(...data);
+        this.reviews.push(...data)       
       });
     },
 

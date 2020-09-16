@@ -48,11 +48,13 @@ export default {
     }
   },   
   methods: {
-    login() {      
+    login() {
+      window.localStorage.setItem("username", "toto")     
       window.location.replace("http://127.0.0.1:8000/accounts/login/")    
     },
-    logout() {      
-      window.location.replace("http://127.0.0.1:8000/accounts/logout/")   
+    logout() {
+      window.localStorage.removeItem("username");         
+      window.location.replace("http://127.0.0.1:8000/accounts/logout/")                
     },   
     getAddressData(addressData, placeResultData) {
       this.placeResultData = placeResultData;
