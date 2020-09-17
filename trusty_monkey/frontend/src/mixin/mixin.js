@@ -74,8 +74,7 @@ export default {
           slicedLabelArray.forEach(function(label) {
             let labelToAdd= label.description
             store.addLabels(labelToAdd)            
-          })
-          // store.setSubmit()
+          })          
           console.log(this.storeState.labels)
           store.setPreloader()                         
         })        

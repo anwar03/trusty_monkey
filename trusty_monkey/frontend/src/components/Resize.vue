@@ -11,14 +11,7 @@
         :autoRotate="true"
         outputFormat="verbose"
         @input="setImage"
-        >
-        <!-- <label for="fileInput" slot="upload-label"> -->
-        <div>
-          <span>
-            <i class='fas fa-camera-retro' style='font-size:40px;color:blue'></i> 
-          </span>
-        </div>
-        <!-- </label> -->
+        >   
       </image-uploader>          
     </div>    
   </div>
@@ -47,6 +40,7 @@ export default {
   methods: {
     setImage: function(output) {
       store.setPreloader()
+      this.storeState.upError = "Nos ingénieurs inspectent votre photo."
       this.hasImage = true;
       this.image = output;
       // if (this.image.exif != null) {

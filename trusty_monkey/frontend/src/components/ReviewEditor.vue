@@ -11,10 +11,7 @@
   <div class="container text-center" v-show="this.storeState.preLoader">
     <div>
       <img src="https://media.giphy.com/media/pFwRzOLfuGHok/giphy.gif" class="w-25">
-    </div>
-    <div class="border border-success rounded w-50 mx-auto mt-3">
-      <p class="text-success my-auto">Nos ingénieurs inspectent votre photo.</p>
-    </div>
+    </div>   
   </div> 
 
   <div v-show="this.storeState.showCatBut == true">

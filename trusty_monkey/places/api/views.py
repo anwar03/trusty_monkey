@@ -6,6 +6,13 @@ from places import models
 from . import serializers
 from drf_multiple_model.views import (FlatMultipleModelAPIView,
                                     ObjectMultipleModelAPIView)
+from rest_framework.pagination import CursorPagination
+
+
+class CursorSetPagination(CursorPagination):
+    page_size = 8
+    page_size_query_param = 'page_size'
+    ordering = "-created_at"
 
 
 class RestaurantIdViewset(viewsets.ModelViewSet):
@@ -22,6 +29,7 @@ class RestaurantReviewViewset(viewsets.ModelViewSet):
             return serializers.RestaurantReviewSerializer 
 
     permission_classes = [IsAuthenticatedOrReadOnly,IsAuthorOrReadOnly]
+    pagination_class = CursorSetPagination
 
     def perform_create(self, serializer):
         serializer.save(review_author=self.request.user)

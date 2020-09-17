@@ -68,7 +68,7 @@
     </div>
 
     <div class="container mt-3 ">
-      <div class="row mt-3 reviewDetail" 
+      <div class="row mt-3 reviewDetail border border-primary" 
             v-for="(review, index) in reviews" 
             :key="review.pk">
         <div class="col-8 pt-3">

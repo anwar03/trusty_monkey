@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="container mt-3">      
-      <div class="row mt-3 singleReview"
+      <div class="row mt-3 singleReview border border-primary"
             v-for="(review, index) in reviews"
             :key="review.pk">
         <div class="col-8">
@@ -27,23 +27,22 @@
          <div v-show="reviewToShow == index">
           <ReviewDetail
           :id="review.id"/>
-        </div>
+        </div>       
         
-        
-
-      </div>  
-    </div>
+      </div>
 
     <div class="my-4">
           <p v-show="loadingReviews">...loading...</p>
           <button
           v-show="next"
           @click="getReviews"
-          class="btn btn-sm btn-outline-success"
+          class="loadBtn btn btn btn-outline-info"
           >Charger Plus
           </button>
     </div>
-    
+
+    </div>
+
   </div>  
 </template>
 
@@ -105,5 +104,8 @@ body {
 }
 a:hover {
   text-decoration: none;
+}
+.loadBtn {
+  background-color: white;
 }
 </style>
