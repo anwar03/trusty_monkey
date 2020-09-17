@@ -31,8 +31,7 @@
         
       </div>
 
-    <div class="my-4">
-          <p v-show="loadingReviews">...loading...</p>
+    <div class="mt-3">          
           <button
           v-show="next"
           @click="getReviews"
@@ -58,7 +57,6 @@ export default {
       reviewToShow: null,
       apiKey: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos",
       next: null,
-      loadingReviews: false,
     }
   },
   components: {
@@ -70,11 +68,9 @@ export default {
       if (this.next) {
         endpoint = this.next
       }
-      this.loadingReviews = true
       apiService(endpoint)
         .then(data => {          
           this.reviews.push(...data.results)
-          this.loadingReviews = false
           if (data.next){
             this.next = data.next
           } else {
