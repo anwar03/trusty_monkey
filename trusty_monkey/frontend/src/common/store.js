@@ -1,7 +1,13 @@
 export const store = {
-    state: {
+    state: {      
       pictures: [],
-      totalPics: 6,
+      labels: [],
+      restLat: null,
+      restLng: null,
+      file: null,      
+      showCatBut: true,
+      upError: null,
+      preLoader: false,
     },
     addPicture(newPicture) {      
       this.state.pictures.push(newPicture);
@@ -9,10 +15,25 @@ export const store = {
     deletePicture(index) {
       this.state.pictures.splice(index,1);
     },
-    uploadedPicture() {
-      this.state.totalPics -= 1
+    setRestLat(lat) {
+      this.state.restLat = lat
     },
-    deletedPicture() {
-      this.state.totalPics += 1
+    setRestLng(lng) {
+      this.state.restLng = lng
     },
+    setFile(file) {
+      this.state.file = file
+    },   
+    addLabels(label) {
+      this.state.labels.push(label)
+    },
+    setShowCatBut() {
+      this.state.showCatBut = !this.state.showCatBut
+    },
+    setUpError(error) {
+      this.state.upError = error 
+    },
+    setPreloader() {
+      this.state.preLoader = !this.state.preLoader
+    }
   }

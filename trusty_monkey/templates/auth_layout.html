@@ -8,14 +8,16 @@ html, body {
 }
 
 body {
-    background-image: url("{% static 'places/img/banana_palms.jpg' %}");
-    background-size: cover;
+    background-image: url("{% static 'places/img/login_banana.jpg' %}");
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .login-form-container {
     width: 300px;
     margin: auto;
-    background-color: white;
+    background-color: white;    
 }
 
 .registration-form-container {
@@ -31,13 +33,14 @@ body {
     padding-bottom: 25px;
     width:500px;
     margin:auto;
-    background-color: white;
+    margin-top: 150px;
+    background-color: white;    
 }
 </style>
 {% endblock %}
 
 {% block content %}    
-<div class="auth-box text-center mt-5">
+<div class="auth-box text-center">
     {% block auth %}
     
     {% endblock %}

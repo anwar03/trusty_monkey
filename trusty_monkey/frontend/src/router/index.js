@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Rest_Reviews from "../views/Rest_Reviews.vue";
-import Resize from "../views/Resize.vue";
+import Notarest from "../views/Notarest.vue";
 
 Vue.use(VueRouter);
 
@@ -19,11 +19,10 @@ const routes = [
     props: true
   },
   {
-    path: "/resize/",
-    name: "resize",
-    component: Resize,
-  }
-
+    path: "/notarest/",
+    name: "notarest",
+    component: Notarest
+  },
 ];
 
 const router = new VueRouter({

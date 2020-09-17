@@ -7,6 +7,14 @@
         </div>
         <div class="row">
           <div>
+            <div v-show="this.$route.params.website != undefined">
+              <a class="btn btn-sm btn-warning mt-2 mr-2"
+                :href="this.$route.params.website"
+                role="button"
+                target="_blank">Site Internet</a>
+            </div>
+          </div>
+          <div>
             <button
               @click="isHidden= !isHidden"
               class="btn btn-sm btn-success mt-2 mr-2"
@@ -33,7 +41,9 @@
           <div class="mt-auto">
             <ul style="list-style-type:none">
               <h3>Horaires:</h3>
-              <li v-for="item in this.$route.params.opening_hours " :key="item">{{ item }}</li>
+              <li v-for="item in this.$route.params.opening_hours " 
+                  :key="item">{{ item }}
+              </li>
             </ul>
           </div>
           <div>
@@ -42,9 +52,15 @@
         </div>
       </div>
 
-      <div
-        class="card-footer"
-      >{{ this.$route.params.adress }}_-|&|-_ {{ this.$route.params.website }}_-|&|-_ {{ this.$route.params.phone }}</div>
+      <div class="card-footer">
+        <div class="row  justify-content-around">
+          <div> <i>{{ this.$route.params.adress }}</i> </div>
+          <div v-show="this.$route.params.phone != undefined">
+            <i class="fas fa-phone"></i> <i>{{ this.$route.params.phone }}</i>
+          </div>         
+        </div>   
+      </div>
+
     </div>
 
     <div v-if="showEditor" class="container">
@@ -52,7 +68,7 @@
     </div>
 
     <div class="container mt-3 ">
-      <div class="row mt-3 reviewDetail" 
+      <div class="row mt-3 reviewDetail border border-primary" 
             v-for="(review, index) in reviews" 
             :key="review.pk">
         <div class="col-8 pt-3">
@@ -84,6 +100,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
@@ -94,9 +111,11 @@ import ReviewEditor from "@/components/ReviewEditor.vue";
 import { store } from "../common/store.js";
 export default {
   name: "rest_reviews",
+
   props: {
     maps: { type: String, required: true }
   },
+
   data() {
     return {
       isHidden: false,
@@ -107,51 +126,56 @@ export default {
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
       error: null,
-      storeState: store.state
-    };
+      storeState: store.state,      
+    }
   },
+
   components: {
     ReviewDetail,
     ReviewEditor
   },
+
   computed: {
     mapUrl() {
       const url = "https://maps.googleapis.com/maps/api/staticmap";
       const params = new URLSearchParams({
-        center: `${this.$route.params.lat},${this.$route.params.lng}`,
+        center: `${this.storeState.restLat},${this.storeState.restLng}`,
         zoom: 15,
         size: "250x250",
         maptype: "terrain",
         key: "AIzaSyCGmIAISNa4W8KK24eXmH-ly_5k_vpAsos"
       });
-      return `${url}?${params}`;
+      return `${url}?${params}`
     }
   },
+
   methods: {
+
     getReviews() {
-      let endpoint = `/api/rest_review/${this.maps}/`;
+      let endpoint = `/api/rest_review/${this.maps}/`;     
       apiService(endpoint).then(data => {
-        this.reviews.push(...data);
+        this.reviews.push(...data)       
       });
     },
-    addRestaurant() {
+
+    addRestaurant() {           
       this.storeState.pictures = []
       let endpoint = `/api/restaurant/`;
       let method = "POST";
       let config = {
         maps: this.$route.params.maps,
         adress: this.$route.params.adress,
-        name: this.$route.params.name
-      };
-
+        name: this.$route.params.name,        
+      }        
       apiService(endpoint, method, config)
         .then(data => {
           console.log("Restaurant added!" + data);
           this.addReview();
         })
         .catch(error => console.log(error));
-    },
-    addReview() {
+      },
+
+    addReview() {      
       let endpoint = `/api/restaurant_review/`;
       let method = "POST";
       apiService(endpoint, method, {
@@ -159,11 +183,13 @@ export default {
         review_author: 1
       }).then(res => {
         this.review_id = res.id;        
-      });
+      })
     },
+
     showTheEditor() {
-      this.showEditor = true;
+      this.showEditor = true
     },
+
     deleteReview() {
       let endpoint = `/api/restaurant_review/${this.review_id}/`;
       let method = "DELETE";
@@ -171,10 +197,12 @@ export default {
       this.$router.push({ name: "home" });
     }
   },
+
   created() {
     this.getReviews();    
   },
-  watch: {
+
+  watch:{
     maps: function() {
       if (this.maps) {
         this.reviews = [];        
@@ -182,7 +210,9 @@ export default {
       }
     }
   }
-};
+
+}
+
 </script>
 
 <style>
@@ -191,13 +221,10 @@ export default {
 }
 .reviewDetail {
   background-color: white;
-  border: 1px solid 
+  border: 1px solid b branch
 }
 body {
   background-image:url(../assets/Optimized-banana_palms.jpg);
 }
-/* .card-body {
-  background-color: rgba(76, 175, 80, 0.3)  
-} */
 
 </style>
