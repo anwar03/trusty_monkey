@@ -150,54 +150,54 @@ class RestaurantStarterPicsListAPIView(generics.ListAPIView):
     serializer_class = serializers.StarterPicsSerializer
 
     def get_queryset(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')       
+        kwarg_maps = self.kwargs.get('maps')       
         return models.StarterPic.objects.filter(
-                                restaurant_review__restaurant=kwarg_restaurant)
+                                restaurant_review__maps=kwarg_maps)
 
 
 class RestaurantMainPicsListAPIView(generics.ListAPIView):
     serializer_class = serializers.MainPicsSerializer
 
     def get_queryset(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')       
+        kwarg_maps = self.kwargs.get('maps')       
         return models.MainPic.objects.filter(
-                                restaurant_review__restaurant=kwarg_restaurant)
+                                restaurant_review__maps=kwarg_maps)
 
 
 class RestaurantDessertPicsListAPIView(generics.ListAPIView):
     serializer_class = serializers.DessertPicsSerializer
 
     def get_queryset(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')       
+        kwarg_maps = self.kwargs.get('maps')       
         return models.DessertPic.objects.filter(
-                                restaurant_review__restaurant=kwarg_restaurant)
+                                restaurant_review__maps=kwarg_maps)
 
 
 class RestaurantMenuPicsListAPIView(generics.ListAPIView):
     serializer_class = serializers.MenuPicsSerializer
 
     def get_queryset(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')       
+        kwarg_maps = self.kwargs.get('maps')       
         return models.MenuPic.objects.filter(
-                                restaurant_review__restaurant=kwarg_restaurant)
+                                restaurant_review__maps=kwarg_maps)
 
 
 class RestaurantOutsidePicsListAPIView(generics.ListAPIView):
     serializer_class = serializers.OutsidePicsSerializer
 
     def get_queryset(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')       
+        kwarg_maps = self.kwargs.get('maps')       
         return models.OutsidePic.objects.filter(
-                                restaurant_review__restaurant=kwarg_restaurant)
+                                restaurant_review__maps=kwarg_maps)
 
 
 class RestaurantInsidePicsListAPIView(generics.ListAPIView):
     serializer_class = serializers.InsidePicsSerializer
 
     def get_queryset(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')       
+        kwarg_maps = self.kwargs.get('maps')       
         return models.InsidePic.objects.filter(
-                                restaurant_review__restaurant=kwarg_restaurant)
+                                restaurant_review__maps=kwarg_maps)
 
 
 class AllEveryRestPicturesAPIView(FlatMultipleModelAPIView):

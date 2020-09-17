@@ -7,6 +7,10 @@
         </div>
         <div class="row">
           <div>
+            <div class="btn btn-sm btn-danger mt-2 mr-2"
+                @click="showPics= !showPics">+ <i class="fa fa-camera"></i></div>
+          </div>
+          <div>
             <div v-show="this.$route.params.website != undefined">
               <a class="btn btn-sm btn-warning mt-2 mr-2"
                 :href="this.$route.params.website"
@@ -52,6 +56,17 @@
         </div>
       </div>
 
+      <div v-show="showPics" class="bg-muted">
+        <div class="d-flex flex-row justify-content-around mb-3 ">
+            <div class="mt-3" v-for="(buttonPic, index) in buttonPics" :key="buttonPic">
+              <button @click="picIndex=index, showCatPic()"
+                      class="btn btn-sm btn-outline-danger text-white"
+              >{{ buttonPic }}
+              </button>
+            </div>
+        </div>
+      </div>
+
       <div class="card-footer">
         <div class="row  justify-content-around">
           <div> <i>{{ this.$route.params.adress }}</i> </div>
@@ -62,6 +77,11 @@
       </div>
 
     </div>
+
+    <div v-show="showPics && picByCat" class="container">
+      <PicByCat :picByCat="picByCat"/>
+    </div>
+
 
     <div v-if="showEditor" class="container">
       <ReviewEditor :id="review_id" />
@@ -92,8 +112,8 @@
             class="btn btn -sm btn-outline-danger"
             @click="reviewToShow= null"
           >Refermer</button>
-        </div>
-        
+        </div>      
+       
 
         <div v-show="reviewToShow == index">
           <ReviewDetail :id="review.id" />
@@ -108,7 +128,10 @@
 import { apiService } from "@/common/api.service.js";
 import ReviewDetail from "@/components/ReviewDetail.vue";
 import ReviewEditor from "@/components/ReviewEditor.vue";
+import PicByCat from "@/components/PicByCat.vue";
 import { store } from "../common/store.js";
+import axios from "axios"
+
 export default {
   name: "rest_reviews",
 
@@ -119,6 +142,7 @@ export default {
   data() {
     return {
       isHidden: false,
+      showPics: false,      
       reviewToShow: null,
       showEditor: false,
       reviews: [],
@@ -126,13 +150,19 @@ export default {
       lat: this.$route.params.lat,
       lng: this.$route.params.lng,
       error: null,
-      storeState: store.state,      
+      storeState: store.state,
+      buttonPics: ['Entrée', 'Plat-principal',
+                  'Dessert', 'Menu', 'Extérieur',
+                  'Intérieur'],
+      picIndex: null,
+      picByCat: []
     }
   },
 
   components: {
     ReviewDetail,
-    ReviewEditor
+    ReviewEditor,
+    PicByCat
   },
 
   computed: {
@@ -195,6 +225,27 @@ export default {
       let method = "DELETE";
       apiService(endpoint, method);
       this.$router.push({ name: "home" });
+    },
+
+    showCatPic() {      
+      if (this.picIndex == 0) {  
+          this.picEndpoint = "rest_starter_pic"}               
+      else if (this.picIndex == 1) {
+              this.picEndpoint = "rest_main_pic"}               
+      else if (this.picIndex == 2) {
+              this.picEndpoint = "rest_dessert_pic"}
+      else if (this.picIndex == 3) {
+              this.picEndpoint = "rest_menu_pic"} 
+      else if (this.picIndex== 4) {
+              this.picEndpoint = "rest_outside_pic"}
+      else if (this.picIndex == 5) {
+              this.picEndpoint = "rest_inside_pic"} 
+              
+      axios.get(`http://127.0.0.1:8000/api/${this.picEndpoint}/${this.$route.params.maps}/`)
+        .then (data => {
+          console.log(data.data)
+          this.picByCat = data.data          
+        })
     }
   },
 
@@ -210,7 +261,6 @@ export default {
       }
     }
   }
-
 }
 
 </script>
