@@ -54,6 +54,7 @@ export default {
     },
     checkImageLabels () {
       this.picToCheck = this.image.dataUrl.replace(/^data:image\/[a-z]+;base64,/, "");
+      
       let axiosConfig = {
         "requests" : [{
           "features": [{

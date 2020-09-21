@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "haversine": "^1.1.1",
     "vue": "^2.6.11",
+    "vue-expandable-image": "^0.1.0",
     "vue-google-autocomplete": "^1.1.0",
     "vue-image-upload-resize": "^2.3.0",
     "vue-router": "^3.2.0"

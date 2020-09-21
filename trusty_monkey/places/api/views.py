@@ -249,26 +249,26 @@ class AllUserPicturesAPIView(FlatMultipleModelAPIView):
 class AllSingleRestPicturesAPIView(FlatMultipleModelAPIView):
 
     def get_querylist(self):
-        kwarg_restaurant = self.kwargs.get('restaurant')
+        kwarg_maps = self.kwargs.get('maps')
 
         querylist = (
             {'queryset':
-            models.StarterPic.objects.filter(restaurant_review__restaurant=kwarg_restaurant),
+            models.StarterPic.objects.filter(restaurant_review__maps=kwarg_maps),
                         'serializer_class': serializers.StarterPicsSerializer},
             {'queryset':
-            models.MainPic.objects.filter(restaurant_review__restaurant=kwarg_restaurant),
+            models.MainPic.objects.filter(restaurant_review__maps=kwarg_maps),
                         'serializer_class': serializers.MainPicsSerializer},
             {'queryset':
-            models.DessertPic.objects.filter(restaurant_review__restaurant=kwarg_restaurant),
+            models.DessertPic.objects.filter(restaurant_review__maps=kwarg_maps),
                         'serializer_class': serializers.DessertPicsSerializer},
             {'queryset':
-            models.MenuPic.objects.filter(restaurant_review__restaurant=kwarg_restaurant),
+            models.MenuPic.objects.filter(restaurant_review__maps=kwarg_maps),
                         'serializer_class': serializers.MenuPicsSerializer},
             {'queryset':
-            models.OutsidePic.objects.filter(restaurant_review__restaurant=kwarg_restaurant),
+            models.OutsidePic.objects.filter(restaurant_review__maps=kwarg_maps),
                         'serializer_class': serializers.OutsidePicsSerializer},
             {'queryset':
-            models.InsidePic.objects.filter(restaurant_review__restaurant=kwarg_restaurant),
+            models.InsidePic.objects.filter(restaurant_review__maps=kwarg_maps),
                         'serializer_class': serializers.InsidePicsSerializer},
         )
 

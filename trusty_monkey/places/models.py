@@ -1,13 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.postgres.fields import ArrayField
 from django.conf import settings
 from datetime import datetime    
         
         
 class Restaurant(models.Model):
     maps = models.CharField(primary_key=True, max_length=140, unique=True)
-    name = models.CharField(max_length=140)   
-
+    name = models.CharField(max_length=140)
+    opened = ArrayField(models.CharField(max_length=1200, null=True, blank=True))
+    website = models.CharField(max_length=800, null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    restLat = models.FloatField()
+    restLng = models.FloatField()
+    adress = models.CharField(max_length=140, null=True, blank=True)
     def __str__(self):
         return self.name
 

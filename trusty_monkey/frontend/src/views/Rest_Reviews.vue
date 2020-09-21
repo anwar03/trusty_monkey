@@ -8,7 +8,9 @@
         <div class="row">
           <div>
             <div class="btn btn-sm btn-danger mt-2 mr-2"
-                @click="showPics= !showPics">+ <i class="fa fa-camera"></i></div>
+                @click="showPics= !showPics
+                        showCatPic()">+ 
+                <i class="fa fa-camera"></i></div>
           </div>
           <div>
             <div v-show="this.$route.params.website != undefined">
@@ -169,7 +171,7 @@ export default {
     mapUrl() {
       const url = "https://maps.googleapis.com/maps/api/staticmap";
       const params = new URLSearchParams({
-        center: `${this.storeState.restLat},${this.storeState.restLng}`,
+        center: `${this.$route.params.restLat},${this.$route.params.restLng}`,
         zoom: 15,
         size: "250x250",
         maptype: "terrain",
@@ -195,7 +197,12 @@ export default {
       let config = {
         maps: this.$route.params.maps,
         adress: this.$route.params.adress,
-        name: this.$route.params.name,        
+        name: this.$route.params.name,
+        opened: this.$route.params.opening_hours,
+        website: this.$route.params.website,
+        phone: this.$route.params.phone,
+        restLat: this.$route.params.restLat,
+        restLng: this.$route.params.restLng   
       }        
       apiService(endpoint, method, config)
         .then(data => {
@@ -227,9 +234,12 @@ export default {
       this.$router.push({ name: "home" });
     },
 
-    showCatPic() {      
+    showCatPic() {
+      this.storeState.picShow = null
+      this.picEndpoint = "all_single_rest_pics"
+      
       if (this.picIndex == 0) {  
-          this.picEndpoint = "rest_starter_pic"}               
+          this.picEndpoint = "rest_starter_pic"}      
       else if (this.picIndex == 1) {
               this.picEndpoint = "rest_main_pic"}               
       else if (this.picIndex == 2) {
@@ -239,7 +249,7 @@ export default {
       else if (this.picIndex== 4) {
               this.picEndpoint = "rest_outside_pic"}
       else if (this.picIndex == 5) {
-              this.picEndpoint = "rest_inside_pic"} 
+              this.picEndpoint = "rest_inside_pic"}      
               
       axios.get(`http://127.0.0.1:8000/api/${this.picEndpoint}/${this.$route.params.maps}/`)
         .then (data => {

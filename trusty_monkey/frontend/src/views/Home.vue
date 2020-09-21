@@ -8,7 +8,7 @@
           <p class="mb-0">Visité par:
             <span><b class="text-danger">{{ review.review_author }}</b>, le  <i>{{ review.created_at }}</i></span>
           </p>
-          <h2><b> {{ review.restaurant_name }} </b></h2>                      
+          <h2 @click="getDetails(review.maps)" class="restName"><b> {{ review.restaurant_name }}</b></h2>                      
           <p class="text-success" >{{ review.restaurant_adress }}</p> 
           <hr class="mb-0">    
         </div>
@@ -77,12 +77,28 @@ export default {
             this.next = null
           }
       })
+    },
+    getDetails(maps) {
+      let endpoint = `/api/restaurant/${maps}/`
+      apiService(endpoint)
+        .then(resp=> {
+          console.log(resp)
+          this.$router.push({ name: "rest_reviews", 
+                  params: { maps: resp.maps,
+                            name: resp.name,
+                            adress: resp.adress,                          
+                            opening_hours: resp.opened,
+                            phone: resp.phone,
+                            website: resp.website,                            
+                            restLat: resp.restLat,
+                            restLng: resp.restLng}}) 
+        })
     }
   },
-  mounted() {      
-    this.getReviews()
-    console.log(this.reviews) 
-    },
+    mounted() {      
+      this.getReviews()
+      console.log(this.reviews) 
+      },
 };
 </script>
 
@@ -103,5 +119,8 @@ a:hover {
 }
 .loadBtn {
   background-color: white;
+}
+.restName:hover {
+  cursor: pointer;
 }
 </style>

@@ -63,7 +63,7 @@ urlpatterns = [
     path('all_user_pics/<int:user>/',
                 views.AllUserPicturesAPIView.as_view(),
                 name='show_all_user_pictures'),
-    path('all_single_rest_pics/<int:restaurant>/',
+    path('all_single_rest_pics/<str:maps>/',
                 views.AllSingleRestPicturesAPIView.as_view(),
                 name='show_all_single_rest_pictures'),
     path('every_review_pics/<int:review>/',

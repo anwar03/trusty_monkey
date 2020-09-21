@@ -8,6 +8,7 @@ export const store = {
       showCatBut: true,
       upError: null,
       preLoader: false,
+      picShow: null,
     },
     addPicture(newPicture) {      
       this.state.pictures.push(newPicture);
@@ -35,5 +36,8 @@ export const store = {
     },
     setPreloader() {
       this.state.preLoader = !this.state.preLoader
+    },
+    setPicShow(index) {
+      this.state.picShow = index
     }
   }

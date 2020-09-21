@@ -80,7 +80,9 @@ export default {
                             opening_hours: this.opening_hours,
                             phone: this.placeResultData.formatted_phone_number,
                             website: this.placeResultData.website,
-                            type: this.placeResultData.types,}})      
+                            type: this.placeResultData.types,
+                            restLat: this.lat,
+                            restLng: this.lng}})      
         this.$refs.inputField.$refs.autocomplete.value='';   
 
       } else { this.$router.push({ name: "notarest" });

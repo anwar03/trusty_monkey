@@ -17,7 +17,10 @@
 
       <div class="col-6 d-flex align-items-center justify-content-center" style="width:450px; height:450px;">        
           <div v-if="picToShow!==null">                    
-             <img :src="pictures[picToShow].picture_1" class="img-responsive" style="width:auto; height:auto; max-width:450px; max-height:450px;"/>     
+             <img :src="pictures[picToShow].picture_1" 
+                  class="img-responsive" 
+                  style="width:auto; height:auto; max-width:450px; max-height:450px;"
+                  />   
           </div>    
       </div>
       
@@ -32,7 +35,8 @@ export default {
   data () {
     return {      
       pictures: [],
-      picToShow: null,               
+      picToShow: null,
+      fullWidthImage: false               
     }
   },
   props: {
@@ -57,5 +61,11 @@ export default {
 </script>
 
 <style>
-
+.full {
+  width: 100%;
+  height: auto;
+}
+img:hover {
+  cursor: pointer;
+}
 </style>

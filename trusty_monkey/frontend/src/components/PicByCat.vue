@@ -10,7 +10,7 @@
           class="col-md-3 my-auto"
           >
             
-          <div @click="picShow= index">                 
+          <div @click="changePicShow(index)">                 
             <img class="img-thumbnail img-responsive" :src="catPicture.picture_1">
           </div>
           </div>  
@@ -18,8 +18,8 @@
       </div>
 
       <div class="col-6 d-flex align-items-center justify-content-center mt-3 mb-3" style="width:450px; height:450px;">        
-          <div v-if="picShow!==null">                    
-             <img :src="picByCat[picShow].picture_1" class="img-responsive" style="width:auto; height:auto; max-width:450px; max-height:450px;"/>     
+          <div v-if="this.storeState.picShow!==null">                    
+             <img :src="picByCat[this.storeState.picShow].picture_1" class="img-responsive" style="width:auto; height:auto; max-width:450px; max-height:450px;"/>     
           </div>    
       </div>
       
@@ -28,11 +28,12 @@
 </template>
 
 <script>
+import { store } from "../common/store.js";
 export default {
   name: "PicByCat",
   data () {
     return {   
-      picShow: null,               
+      storeState: store.state,               
     }
   },
   props: {
@@ -40,6 +41,11 @@ export default {
       type: Array,
       required: true
     }
-  },    
+  },
+  methods: {
+    changePicShow(index) {
+      store.setPicShow(index)
+    }
+  }    
 } 
 </script>
