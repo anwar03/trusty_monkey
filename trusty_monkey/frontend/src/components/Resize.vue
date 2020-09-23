@@ -43,23 +43,21 @@ export default {
       this.storeState.upError = "Nos ingénieurs inspectent votre photo."
       this.hasImage = true;
       this.image = output;
-      // if (this.image.exif != null) {
-      // console.log (this.image)
-      //   if (this.image.exif.GPSLatitude) {
-      //     this.calculateCoordPicture();  
-      //     this.checkIfPicInRange()
-      //     if(this.checkIfPicInRange()) {
-      //       this.error = null
-      //       this.checkImageLabels()                               
-      //       this.imageConversion()                    
-      //     } else {store.setUpError("Votre photo ne semble pas avoir été prise dans ce restaurant")
-      //             store.setShowCatBut()}
-      //   } else {store.setUpError("Avez vous activé la géolocalisation sur votre téléphone?")
-      //           store.setShowCatBut()}
-      // } else {store.setUpError("Avez vous activé la géolocalisation sur votre téléphone?")
-      //         store.setShowCatBut()}
-      this.checkImageLabels()                               
-      this.imageConversion() 
+      if (this.image.exif != null) {
+      console.log (this.image)
+        if (this.image.exif.GPSLatitude) {
+          this.calculateCoordPicture();  
+          this.checkIfPicInRange()
+          if(this.checkIfPicInRange()) {
+            this.error = null
+            this.checkImageLabels()                               
+            this.imageConversion()                    
+          } else {store.setUpError("Votre photo ne semble pas avoir été prise dans ce restaurant")
+                  store.setShowCatBut()}
+        } else {store.setUpError("Avez vous activé la géolocalisation sur votre téléphone?")
+                store.setShowCatBut()}
+      } else {store.setUpError("Avez vous activé la géolocalisation sur votre téléphone?")
+              store.setShowCatBut()}      
     },   
   },
   components: {

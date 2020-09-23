@@ -3,7 +3,7 @@ from django.urls import include, path, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from django_registration.backends.one_step.views import RegistrationView
-from core.views import IndexTemplateView, DummyView
+from core.views import IndexTemplateView
 
 urlpatterns = [
     path('admin/', admin.site.urls),

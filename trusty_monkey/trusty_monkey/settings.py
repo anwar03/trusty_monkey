@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '-jc7uv=+k#uv&ww&9^z@(!=49#rn7bxipp%2uagwjvcdkc&u19'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -137,6 +137,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'uploaded_media')
 MEDIA_URL = '/media/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "assets"),
+    os.path.join(BASE_DIR, "frontend/dist"),
+]
+
+# STATIC_ROOT = ''
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
