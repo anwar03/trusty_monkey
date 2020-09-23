@@ -1,1 +1,1 @@
-web: gunicorn trusty_monkey.trusty_monkey.wsgi
+web: gunicorn --pythonpath trusty_monkey trusty_monkey.wsgi
