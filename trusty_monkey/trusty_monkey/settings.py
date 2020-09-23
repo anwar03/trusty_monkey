@@ -25,7 +25,7 @@ SECRET_KEY = '-jc7uv=+k#uv&ww&9^z@(!=49#rn7bxipp%2uagwjvcdkc&u19'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["trustymonkey.herokuapp.com", "127.0.0.1"]
 
 
 # Application definition
@@ -143,7 +143,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend/dist"),
 ]
 
-# STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
