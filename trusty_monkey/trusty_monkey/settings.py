@@ -83,7 +83,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'trusty_monkey.wsgi.application'
 
-
+SECURE_SSL_REDIRECT = True
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
